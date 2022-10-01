@@ -18,6 +18,7 @@ signal died
 
 var max_health: float = 100.0
 var current_health: float = max_health
+export (float) var damage: float = 10.0
 
 func _ready() -> void:
 	if player:
@@ -41,6 +42,8 @@ func _physics_process(delta: float) -> void:
 		if collision.collider is RigidBody2D:
 			#print("Collided with: ", collision.collider.name)
 			collision.collider.apply_central_impulse(-collision.normal * velocity.length() * push_factor)
+		if collision.collider == player:
+			player.hurt(damage)
 
 func impact(impulse: Vector2) -> void:
 	velocity += impulse

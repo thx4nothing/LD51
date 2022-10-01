@@ -13,6 +13,7 @@ onready var collision_body: CollisionPolygon2D = $CollisionBody as CollisionPoly
 export var shoot_cooldown: float = 0.5
 var shoot_timer: float = 0.0
 
+
 enum FireMode {
 	FireBall,
 	Levitate
@@ -24,13 +25,27 @@ var current_fire_mode = FireMode.Levitate
 
 var selected_create: Crate
 
-signal died
+export (Resource) var health
+signal died(score)
+
+var score: int = 0
+
+onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
+
+onready var blinkAnimPlayer: AnimationPlayer = $BlinkingPlayer as AnimationPlayer
+onready var blink_timer: Timer = $BlinkTimer as Timer
+onready var blood_particles: Particles2D = $BloodParticles as Particles2D
+
+var invincible: bool = false
+var dead: bool = false
 
 func _ready() -> void:
-	pass # Replace with function body.
+	health.reset()
+	health.connect("health_changed", self, "_health_changed")
 
 
 func _process(delta: float) -> void:
+	if dead: return
 	if Input.is_action_just_pressed("debug_change_mode"):
 		current_fire_mode += 1
 		if current_fire_mode > FireMode.size() - 1:
@@ -57,6 +72,7 @@ func _process(delta: float) -> void:
 					selected_create = null
 
 func _physics_process(delta: float) -> void:
+	if dead: return
 	var direction: = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	var _move_vector: Vector2 = _acceleration * direction * delta
 	_velocity = move_and_slide(_move_vector)
@@ -76,3 +92,25 @@ func _fire_bullet() -> void:
 	bullet.apply_central_impulse(direction * 1000)
 	get_parent().add_child(bullet)
 	
+func hurt(amount) -> void:
+	if !invincible and not dead:
+		invincible = true
+		camera.shake(0.2, 250, amount)
+		blinkAnimPlayer.play("Start")
+		blink_timer.start()
+		blood_particles.emitting = true
+		blood_particles.one_shot = true
+		health.take_damage(amount)
+
+func _health_changed(value) -> void:
+	if value <= 0 and not dead:
+		emit_signal("died", score)
+		dead = true
+		blood_particles.one_shot = false
+		blood_particles.emitting = true
+		#blood_particles.set_deferred("emitting", true)
+	pass
+
+func _on_BlinkTimer_timeout() -> void:
+	blinkAnimPlayer.play("End")
+	invincible = false

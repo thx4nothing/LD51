@@ -41,7 +41,8 @@ func _process(_delta: float) -> void:
 func _on_day_timer_timeout() -> void:
 	pass
 
-func _player_died() -> void:
+func _player_died(score: int) -> void:
+	print(score)
 	pass
 
 func spawn_enemy() -> void:

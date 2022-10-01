@@ -1,0 +1,161 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://characters/player/player.gd" type="Script" id=1]
+[ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
+[ext_resource path="res://characters/BloodParticles.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+uniform bool active = false;
+
+void fragment(){
+	vec4 prevColor = COLOR;
+	if (active) COLOR = vec4(1.0, 1.0, 1.0, prevColor.a);
+	else COLOR = prevColor;
+}"
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/active = false
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 1, 1, 1, 1, 0.355469, 0.355469, 0.355469, 0.788235 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+min_value = 0.5
+max_value = 2.0
+_data = [ Vector2( 0, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 0.994382, 1.97784 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 0.6
+trail_divisor = 10
+emission_shape = 5
+emission_ring_radius = 8.29
+emission_ring_inner_radius = 0.53
+emission_ring_height = 6.12
+emission_ring_axis = Vector3( 0, 0, 1 )
+flag_disable_z = true
+spread = 11.14
+flatness = 0.25
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 84.08
+initial_velocity_random = 0.3
+angular_velocity = 142.57
+angular_velocity_random = 0.45
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 30.4
+angle_random = 0.81
+scale = 2.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "End"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Start"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 54
+script = ExtResource( 1 )
+health = ExtResource( 2 )
+
+[node name="CollisionBody" type="CollisionPolygon2D" parent="."]
+position = Vector2( -0.200001, -0.200001 )
+scale = Vector2( 1.00781, 1.00781 )
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+
+[node name="LevitateRay" type="RayCast2D" parent="."]
+rotation = -1.5708
+enabled = true
+cast_to = Vector2( 0, 300 )
+collision_mask = 2
+
+[node name="Body" type="Polygon2D" parent="."]
+material = SubResource( 7 )
+color = Color( 0.470588, 0, 0.658824, 1 )
+antialiased = true
+polygon = PoolVector2Array( 16, -16, -16, -16, -16, 16, 16, 16 )
+
+[node name="Wand" type="Polygon2D" parent="Body"]
+position = Vector2( 6, -3 )
+color = Color( 0.415686, 0.270588, 0, 1 )
+polygon = PoolVector2Array( 0, 19, 0, 22, 16, 21, 16, 20 )
+
+[node name="ShootPoint" type="Position2D" parent="Body/Wand"]
+position = Vector2( 16, 20 )
+
+[node name="LevitateParticles" type="Particles2D" parent="Body/Wand"]
+position = Vector2( 16, 20 )
+emitting = false
+amount = 1000
+lifetime = 3.0
+speed_scale = 5.11
+local_coords = false
+process_material = SubResource( 5 )
+
+[node name="BlinkingPlayer" type="AnimationPlayer" parent="."]
+autoplay = "RESET"
+anims/End = SubResource( 8 )
+anims/RESET = SubResource( 10 )
+anims/Start = SubResource( 9 )
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="BloodParticles" parent="." instance=ExtResource( 3 )]
+emitting = false
+one_shot = true
+
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]

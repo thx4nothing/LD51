@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name FireBall
 
 export (float) var damage = 20.0
-export (float) var lifetime = 2
+export (float) var lifetime = 2.0
 export (float) var max_bounces: int = 1
 var bounces: int = 0
 var bounced: bool = false
@@ -14,7 +14,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
