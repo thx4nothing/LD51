@@ -9,12 +9,24 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Crate",
+"language": "GDScript",
+"path": "res://objects/crate.gd"
+}, {
+"base": "RigidBody2D",
+"class": "FireBall",
+"language": "GDScript",
+"path": "res://characters/fire_ball.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://characters/player.gd"
 } ]
 _global_script_class_icons={
+"Crate": "",
+"FireBall": "",
 "Player": ""
 }
 
@@ -89,6 +101,7 @@ debug_change_mode={
 [layer_names]
 
 2d_physics/layer_1="World"
+2d_physics/layer_2="Crates"
 
 [physics]
 

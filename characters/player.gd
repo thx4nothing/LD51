@@ -5,7 +5,7 @@ var _velocity: Vector2 = Vector2.ZERO
 export var _acceleration: float = 10000 # p/s^2
 export var _max_speed: float = 300 # p/s
 
-onready var bullet_res: = preload("res://characters/Bullet.tscn") as PackedScene
+onready var bullet_res: = preload("res://characters/FireBall.tscn") as PackedScene
 onready var _shoot_point: Position2D = $Body/Wand/ShootPoint as Position2D
 onready var body: Polygon2D = $Body as Polygon2D
 
@@ -16,8 +16,12 @@ enum FireMode {
 	FireBall,
 	Levitate
 }
+onready var levitate_ray: RayCast2D = $Body/Wand/LevitateRay as RayCast2D
+onready var levitate_particles: Particles2D = $Body/Wand/LevitateParticles as Particles2D
 
-var current_fire_mode = FireMode.FireBall
+var current_fire_mode = FireMode.Levitate
+
+var selected_create: Crate
 
 func _ready() -> void:
 	pass # Replace with function body.
@@ -36,7 +40,18 @@ func _process(delta: float) -> void:
 			elif shoot_timer > 0.0:
 				shoot_timer = shoot_timer + delta if shoot_timer < shoot_cooldown else 0
 		FireMode.Levitate:
-			pass
+			if Input.is_action_pressed("shoot"):
+				levitate_particles.emitting = true
+				if not selected_create and levitate_ray.is_colliding():
+					var crate: = levitate_ray.get_collider() as Crate
+					if crate:
+						selected_create = crate
+						selected_create.start_levitate(self)
+			elif not Input.is_action_pressed("shoot"):
+				levitate_particles.emitting = false
+				if selected_create:
+					selected_create.stop_levitate()
+					selected_create = null
 
 func _physics_process(delta: float) -> void:
 	var direction: = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
