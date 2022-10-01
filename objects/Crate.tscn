@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="Crate" type="RigidBody2D"]
+continuous_cd = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 0.843137, 0.498039, 0.0117647, 1 )
+polygon = PoolVector2Array( 16, -16, -16, -16, -16, 16, 16, 16 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -0.200001, -0.200001 )
+scale = Vector2( 1.00781, 1.00781 )
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
