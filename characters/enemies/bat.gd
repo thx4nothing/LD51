@@ -5,6 +5,9 @@ export (float) var speed := 200.0
 
 onready var player = get_tree().get_nodes_in_group("player")[0]
 onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D as NavigationAgent2D
+onready var body: Polygon2D = $Body as Polygon2D
+onready var collision_body: CollisionPolygon2D = $CollisionBody as CollisionPolygon2D
+onready var blood_particles: PackedScene = preload("res://characters/BloodParticles.tscn") as PackedScene
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -30,6 +33,9 @@ func _physics_process(delta: float) -> void:
 	velocity += steering
 	#add_central_force(velocity)
 	velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
+	var _rotation := velocity.angle() 
+	body.rotation = _rotation
+	collision_body.rotation = _rotation
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)
 		if collision.collider is RigidBody2D:
@@ -38,6 +44,16 @@ func _physics_process(delta: float) -> void:
 
 func impact(impulse: Vector2) -> void:
 	velocity += impulse
+
+func take_damage(dmg: float) -> void:
+	print("dead")
+	current_health -= dmg
+	if current_health <= 0:
+		emit_signal("died", self)
+		set_physics_process(false)
+		#explode()
+		var blood = blood_particles.instance()
+		add_child(blood)
 
 func _on_NavTimer_timeout() -> void:
 	if player:

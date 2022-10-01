@@ -121,6 +121,8 @@ debug_spawn_enemy={
 2d_physics/layer_2="Crates"
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Fireball"
+2d_physics/layer_5="Spikes"
+2d_physics/layer_6="Wall"
 
 [physics]
 

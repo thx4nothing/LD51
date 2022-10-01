@@ -80,14 +80,14 @@ func _physics_process(delta):
 		#apply gravity to the velocity map so the triangle falls
 		#shard_velocity_map[child].y -= delta * 55
 
-func _on_Crate_body_entered(body: Node) -> void:
-	if body is Bat:
-		var bat: Bat = body as Bat
+func _on_Crate_body_entered(collider: Node) -> void:
+	var bat: Bat = collider as Bat
+	if bat:
 		bat.impact(linear_velocity)
 		#print(linear_velocity)
 		
-	if !exploded and body is FireBall:
-		var thing: RigidBody2D = body as RigidBody2D
+	if !exploded and collider is FireBall:
+		var thing: RigidBody2D = collider as RigidBody2D
 		exploded = true
 		explosion_speed = thing.linear_velocity.length() / weight
 		print(explosion_speed)

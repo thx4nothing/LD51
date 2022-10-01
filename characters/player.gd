@@ -8,6 +8,7 @@ export var _max_speed: float = 300 # p/s
 onready var bullet_res: = preload("res://characters/FireBall.tscn") as PackedScene
 onready var _shoot_point: Position2D = $Body/Wand/ShootPoint as Position2D
 onready var body: Polygon2D = $Body as Polygon2D
+onready var collision_body: CollisionPolygon2D = $CollisionBody as CollisionPolygon2D
 
 export var shoot_cooldown: float = 0.5
 var shoot_timer: float = 0.0
@@ -16,7 +17,7 @@ enum FireMode {
 	FireBall,
 	Levitate
 }
-onready var levitate_ray: RayCast2D = $Body/Wand/LevitateRay as RayCast2D
+onready var levitate_ray: RayCast2D = $LevitateRay as RayCast2D
 onready var levitate_particles: Particles2D = $Body/Wand/LevitateParticles as Particles2D
 
 var current_fire_mode = FireMode.Levitate
@@ -40,7 +41,7 @@ func _process(delta: float) -> void:
 				_fire_bullet()
 				shoot_timer += delta
 			elif shoot_timer > 0.0:
-				shoot_timer = shoot_timer + delta if shoot_timer < shoot_cooldown else 0
+				shoot_timer = (shoot_timer + delta) if shoot_timer < shoot_cooldown else 0
 		FireMode.Levitate:
 			if Input.is_action_pressed("shoot"):
 				levitate_particles.emitting = true
@@ -61,6 +62,9 @@ func _physics_process(delta: float) -> void:
 	_velocity = move_and_slide(_move_vector)
 	var _rotation: float = get_angle_to(get_global_mouse_position())
 	body.rotation = _rotation
+	collision_body.rotation = _rotation
+	#levitate_ray.position = _shoot_point.position
+	levitate_ray.rotation = _rotation - PI / 2
 
 func _fire_bullet() -> void:
 	var bullet := bullet_res.instance() as RigidBody2D

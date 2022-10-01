@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://characters/player_camera.gd" type="Script" id=1]
 [ext_resource path="res://characters/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/Crate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://world.gd" type="Script" id=4]
+[ext_resource path="res://objects/SpikeWall.tscn" type="PackedScene" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( -1298, 807, -993, -814, 1115, -827, 1406, 814 )
@@ -52,3 +53,29 @@ position = Vector2( -191, -108 )
 
 [node name="Crate4" parent="World/Navigation2D" instance=ExtResource( 3 )]
 position = Vector2( -198, 78 )
+
+[node name="Spikes" type="Node" parent="World"]
+
+[node name="SpikeWall" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( -116, -266 )
+
+[node name="SpikeWall2" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( -84, -266 )
+
+[node name="SpikeWall3" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( -52, -266 )
+
+[node name="SpikeWall4" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( -20, -266 )
+
+[node name="SpikeWall5" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( 12, -266 )
+
+[node name="SpikeWall6" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( 44, -266 )
+
+[node name="SpikeWall7" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( 76, -266 )
+
+[node name="SpikeWall8" parent="World/Spikes" instance=ExtResource( 5 )]
+position = Vector2( 108, -266 )
