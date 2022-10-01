@@ -81,6 +81,11 @@ func _physics_process(delta):
 		#shard_velocity_map[child].y -= delta * 55
 
 func _on_Crate_body_entered(body: Node) -> void:
+	if body is Bat:
+		var bat: Bat = body as Bat
+		bat.impact(linear_velocity)
+		#print(linear_velocity)
+		
 	if !exploded and body is FireBall:
 		var thing: RigidBody2D = body as RigidBody2D
 		exploded = true

@@ -23,6 +23,8 @@ var current_fire_mode = FireMode.Levitate
 
 var selected_create: Crate
 
+signal died
+
 func _ready() -> void:
 	pass # Replace with function body.
 

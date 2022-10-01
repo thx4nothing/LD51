@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Bat",
+"language": "GDScript",
+"path": "res://characters/enemies/bat.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Crate",
 "language": "GDScript",
@@ -19,14 +24,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://characters/fire_ball.gd"
 }, {
+"base": "Node2D",
+"class": "GameWorld",
+"language": "GDScript",
+"path": "res://world.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://characters/player.gd"
 } ]
 _global_script_class_icons={
+"Bat": "",
 "Crate": "",
 "FireBall": "",
+"GameWorld": "",
 "Player": ""
 }
 
@@ -97,11 +109,18 @@ debug_change_mode={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
  ]
 }
+debug_spawn_enemy={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
-2d_physics/layer_1="World"
+2d_physics/layer_1="Player"
 2d_physics/layer_2="Crates"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Fireball"
 
 [physics]
 
