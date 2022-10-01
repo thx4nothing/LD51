@@ -8,6 +8,7 @@ var explosion_speed: float = 10
 onready var body: Polygon2D = $Body
 var player
 onready var levitate_particles: Particles2D = $LevitateParticles as Particles2D
+onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
 
 
 # Called when the node enters the scene tree for the first time.
@@ -82,8 +83,9 @@ func _physics_process(delta):
 
 func _on_Crate_body_entered(collider: Node) -> void:
 	var bat: Bat = collider as Bat
-	if bat:
-		bat.impact(linear_velocity)
+	if bat and player:
+		bat.impact(linear_velocity * 2)
+		camera.shake(0.2, 250, linear_velocity.length() / weight)
 		#print(linear_velocity)
 		
 	if !exploded and collider is FireBall:
