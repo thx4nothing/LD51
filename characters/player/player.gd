@@ -13,9 +13,11 @@ onready var collision_body: CollisionPolygon2D = $CollisionBody as CollisionPoly
 export var shoot_cooldown: float = 0.5
 var shoot_timer: float = 0.0
 
+onready var spell_timer: Timer = $SpellTimer as Timer
+signal spell_changed(new_spell)
 
 enum FireMode {
-	FireBall,
+	FireBalls,
 	Levitate
 }
 onready var levitate_ray: RayCast2D = $LevitateRay as RayCast2D
@@ -52,7 +54,7 @@ func _process(delta: float) -> void:
 		if current_fire_mode > FireMode.size() - 1:
 			current_fire_mode = 0
 	match current_fire_mode:
-		FireMode.FireBall:
+		FireMode.FireBalls:
 			if Input.is_action_pressed("shoot") and shoot_timer == 0.0:
 				_fire_bullet()
 				shoot_timer += delta
@@ -66,11 +68,11 @@ func _process(delta: float) -> void:
 					if crate:
 						selected_create = crate
 						selected_create.start_levitate(self)
-			elif not Input.is_action_pressed("shoot"):
-				levitate_particles.emitting = false
-				if selected_create:
-					selected_create.stop_levitate()
-					selected_create = null
+	if not Input.is_action_pressed("shoot") or current_fire_mode != FireMode.Levitate:
+		levitate_particles.emitting = false
+		if selected_create:
+			selected_create.stop_levitate()
+			selected_create = null
 
 func _physics_process(delta: float) -> void:
 	if dead: return
@@ -115,3 +117,11 @@ func _health_changed(value) -> void:
 func _on_BlinkTimer_timeout() -> void:
 	blinkAnimPlayer.play("End")
 	invincible = false
+
+
+func _on_SpellTimer_timeout() -> void:
+	var prev_mode = current_fire_mode
+	while current_fire_mode == prev_mode:
+		current_fire_mode = randi() % FireMode.size()
+	emit_signal("spell_changed", current_fire_mode)
+	print("test")

@@ -197,4 +197,9 @@ one_shot = true
 emitting = false
 one_shot = true
 
+[node name="SpellTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
+[connection signal="timeout" from="SpellTimer" to="." method="_on_SpellTimer_timeout"]
