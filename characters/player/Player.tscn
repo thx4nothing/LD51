@@ -73,6 +73,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1.5, 1.5, 1.5, 1 ) ]
+}
 
 [sub_resource type="Animation" id=10]
 length = 0.001
@@ -87,6 +99,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1.5, 1.5, 1.5, 1 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -104,6 +128,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="Player" type="KinematicBody2D"]
@@ -124,8 +160,9 @@ cast_to = Vector2( 0, 300 )
 collision_mask = 2
 
 [node name="Body" type="Polygon2D" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 material = SubResource( 7 )
-color = Color( 0.470588, 0, 0.658824, 1 )
+color = Color( 0.545098, 0.427451, 0.611765, 1 )
 antialiased = true
 polygon = PoolVector2Array( 16, -16, -16, -16, -16, 16, 16, 16 )
 

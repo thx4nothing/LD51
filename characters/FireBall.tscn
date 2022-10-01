@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://characters/fire_ball.gd" type="Script" id=1]
+[ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0193548, 0.180645, 1 )
@@ -61,6 +62,14 @@ one_shot = true
 
 [node name="BounceTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+texture_scale = 2.0
+color = Color( 0.341176, 0.305882, 0.180392, 0.654902 )
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 4
 
 [connection signal="body_entered" from="." to="." method="_on_FireBall_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]

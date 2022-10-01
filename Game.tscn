@@ -10,6 +10,17 @@
 
 [sub_resource type="Environment" id=2]
 background_mode = 4
+tonemap_mode = 1
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/3 = false
+glow_intensity = 0.3
+glow_strength = 1.5
+glow_blend_mode = 0
+glow_hdr_threshold = 1.5
+glow_hdr_luminance_cap = 2.0
+glow_bicubic_upscale = true
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -93,6 +104,9 @@ text = "Restart"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.470588, 0.470588, 0.470588, 1 )
 
 [connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/HBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
 
