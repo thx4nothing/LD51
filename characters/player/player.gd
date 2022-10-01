@@ -26,9 +26,9 @@ var current_fire_mode = FireMode.Levitate
 var selected_create: Crate
 
 export (Resource) var health
-signal died(score)
+signal died
 
-var score: int = 0
+export (Resource) var score
 
 onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
 
@@ -46,6 +46,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if dead: return
+	score.get_points(delta)
 	if Input.is_action_just_pressed("debug_change_mode"):
 		current_fire_mode += 1
 		if current_fire_mode > FireMode.size() - 1:
@@ -104,7 +105,7 @@ func hurt(amount) -> void:
 
 func _health_changed(value) -> void:
 	if value <= 0 and not dead:
-		emit_signal("died", score)
+		emit_signal("died")
 		dead = true
 		blood_particles.one_shot = false
 		blood_particles.emitting = true

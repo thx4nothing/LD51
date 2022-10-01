@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://characters/player/camera.gd" type="Script" id=3]
+[ext_resource path="res://world.gd" type="Script" id=4]
+[ext_resource path="res://objects/SpikeWall.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/Crate.tscn" type="PackedScene" id=9]
+[ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=10]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( -1298, 807, -993, -814, 1115, -827, 1406, 814 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( -1298, 807, -993, -814, 1115, -827, 1406, 814 ) ]
+
+[node name="World" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Background" type="Sprite" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+current = true
+smoothing_enabled = true
+smoothing_speed = 15.0
+script = ExtResource( 3 )
+target = NodePath("../Navigation2D/Player")
+
+[node name="Node" type="Node" parent="Camera2D"]
+
+[node name="TopLeft" type="Position2D" parent="Camera2D/Node"]
+position = Vector2( -737, -430 )
+
+[node name="BottomRight" type="Position2D" parent="Camera2D/Node"]
+position = Vector2( 828, 465 )
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+navpoly = SubResource( 1 )
+
+[node name="Player" parent="Navigation2D" groups=["player"] instance=ExtResource( 10 )]
+unique_name_in_owner = true
+
+[node name="Crate" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( 173, 61 )
+
+[node name="Crate2" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( 145, -94 )
+
+[node name="Crate3" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( -191, -108 )
+
+[node name="Crate4" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( -198, 78 )
+
+[node name="Spikes" type="Node" parent="."]
+
+[node name="SpikeWall" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( -116, -266 )
+
+[node name="SpikeWall2" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( -83, -266 )
+
+[node name="SpikeWall3" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( -52, -266 )
+
+[node name="SpikeWall4" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( -20, -266 )
+
+[node name="SpikeWall5" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( 12, -266 )
+
+[node name="SpikeWall6" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( 44, -266 )
+
+[node name="SpikeWall7" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( 76, -266 )
+
+[node name="SpikeWall8" parent="Spikes" instance=ExtResource( 8 )]
+position = Vector2( 108, -266 )

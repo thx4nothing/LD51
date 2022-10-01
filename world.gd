@@ -7,6 +7,9 @@ onready var bat_res = preload("res://characters/enemies/Bat.tscn")
 onready var player := $"%Player" as Player
 onready var camera: Camera2D = $Camera2D as Camera2D
 
+export (NodePath) var game_over_screen
+export (NodePath) var death_screen
+
 var wave: int = 0
 
 var random_spawn_pos: Vector2 = Vector2.ZERO
@@ -29,6 +32,8 @@ func get_random_spawn_pos() -> Vector2:
 
 func _ready() -> void:
 	player.connect("died", self, "_player_died")
+	get_node(game_over_screen).visible = false
+	get_node(death_screen).visible = false
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -41,8 +46,9 @@ func _process(_delta: float) -> void:
 func _on_day_timer_timeout() -> void:
 	pass
 
-func _player_died(score: int) -> void:
-	print(score)
+func _player_died() -> void:
+	get_node(game_over_screen).visible = true
+	get_node(death_screen).visible = true
 	pass
 
 func spawn_enemy() -> void:

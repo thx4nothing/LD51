@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://characters/player/player.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
 [ext_resource path="res://characters/BloodParticles.tscn" type="PackedScene" id=3]
+[ext_resource path="res://characters/player/score.tres" type="Resource" id=4]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -109,6 +110,7 @@ tracks/0/keys = {
 collision_mask = 54
 script = ExtResource( 1 )
 health = ExtResource( 2 )
+score = ExtResource( 4 )
 
 [node name="CollisionBody" type="CollisionPolygon2D" parent="."]
 position = Vector2( -0.200001, -0.200001 )
