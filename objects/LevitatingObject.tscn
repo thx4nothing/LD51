@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://objects/LevitateParticles.tscn" type="PackedScene" id=1]
+[ext_resource path="res://effects/LevitateParticles.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/levitating_object.gd" type="Script" id=2]
 
 [node name="LevitatingObject" type="RigidBody2D"]
@@ -11,6 +11,8 @@ continuous_cd = 1
 contacts_reported = 4
 contact_monitor = true
 can_sleep = false
+linear_damp = 10.0
+angular_damp = 10.0
 script = ExtResource( 2 )
 
 [node name="Body" type="Polygon2D" parent="."]

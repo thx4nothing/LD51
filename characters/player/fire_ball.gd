@@ -41,7 +41,7 @@ func _on_FireBall_body_entered(collider: Node) -> void:
 				bat.impact(linear_velocity)
 				_camera.shake(0.2, 250, linear_velocity.length() / weight)
 		explosion_particles.emitting = true
-		_life_timer.start(0.1)
+		_life_timer.start(0.3)
 	elif collider is Crate:
 		(collider as Crate).hit(self)
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://characters/enemies/enemy.gd" type="Script" id=1]
-[ext_resource path="res://characters/BloodParticles.tscn" type="PackedScene" id=2]
+[ext_resource path="res://effects/BloodParticles.tscn" type="PackedScene" id=2]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 polygon = PoolVector2Array( 16, 0, -16, 16, -16, -16 )
@@ -27,6 +27,7 @@ avoidance_enabled = true
 radius = 40.0
 neighbor_dist = 100.0
 time_horizon = 10.0
+max_speed = 100000.0
 
 [node name="NavTimer" type="Timer" parent="."]
 wait_time = 0.1

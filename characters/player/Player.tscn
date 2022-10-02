@@ -1,9 +1,12 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://characters/player/player.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
-[ext_resource path="res://characters/BloodParticles.tscn" type="PackedScene" id=3]
+[ext_resource path="res://effects/BloodParticles.tscn" type="PackedScene" id=3]
 [ext_resource path="res://characters/player/score.tres" type="Resource" id=4]
+[ext_resource path="res://characters/player/states/fireball_state.gd" type="Script" id=5]
+[ext_resource path="res://characters/player/states/levitate_state.gd" type="Script" id=6]
+[ext_resource path="res://characters/player/states/shrink_state.gd" type="Script" id=7]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -145,8 +148,8 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 54
 script = ExtResource( 1 )
-health = ExtResource( 2 )
 score = ExtResource( 4 )
+health = ExtResource( 2 )
 
 [node name="CollisionBody" type="CollisionPolygon2D" parent="."]
 position = Vector2( -0.200001, -0.200001 )
@@ -200,6 +203,18 @@ one_shot = true
 [node name="SpellTimer" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
+
+[node name="States" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="FireBall" type="Node" parent="States"]
+script = ExtResource( 5 )
+
+[node name="Levitate" type="Node" parent="States"]
+script = ExtResource( 6 )
+
+[node name="Shrink" type="Node" parent="States"]
+script = ExtResource( 7 )
 
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
 [connection signal="timeout" from="SpellTimer" to="." method="_on_SpellTimer_timeout"]

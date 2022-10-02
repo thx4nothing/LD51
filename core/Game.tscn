@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://game.gd" type="Script" id=1]
-[ext_resource path="res://World.tscn" type="PackedScene" id=2]
+[ext_resource path="res://core/game.gd" type="Script" id=1]
+[ext_resource path="res://core/World.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/player/high_score.tres" type="Resource" id=3]
 [ext_resource path="res://ui/spell_label.gd" type="Script" id=4]
 [ext_resource path="res://ui/wizard_theme.tres" type="Theme" id=5]

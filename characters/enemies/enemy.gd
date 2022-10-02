@@ -44,8 +44,7 @@ func move(_velocity: Vector2) -> void:
 			#print("Collided with: ", collision.collider.name)
 			collision.collider.apply_central_impulse(-collision.normal * velocity.length())
 		if collision.collider == player:
-			player.hurt(damage)
-	pass
+			player.hurt(damage, self)
 
 func take_damage(dmg: float) -> void:
 	current_health -= dmg

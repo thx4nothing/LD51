@@ -17,9 +17,9 @@ func _ready() -> void:
 
 
 func _on_SpikesArea_body_entered(body: Node) -> void:
-	print(body)
 	var bat := body as Bat
 	if bat:
 		bat.take_damage(damage)
-	
-	pass # Replace with function body.
+	var player := body as Player
+	if player:
+		player.hurt(damage / 10, self)

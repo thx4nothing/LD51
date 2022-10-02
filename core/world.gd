@@ -69,13 +69,13 @@ func _enemy_died(enemy: Enemy) -> void:
 	var pos = enemy.global_position
 	var rot = enemy.global_rotation
 	var color = enemy.body.color
-	enemy.queue_free()
 	var lev_bat = lev_bat_res.instance()
 	lev_bat.global_position = pos
 	lev_bat.global_rotation = rot
-	ai_region.add_child(lev_bat)
-	lev_bat.body.color = color
 	lev_bat.default_color = color
+	ai_region.call_deferred("add_child", lev_bat)
+	#lev_bat.body.color = color
+	enemy.queue_free()
 	
 	enemy_counter += 1
 	player_score.get_points(wave+1)

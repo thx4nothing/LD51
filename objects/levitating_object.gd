@@ -14,15 +14,17 @@ onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D as Co
 export (int) var _max_uses: int = 5
 onready var _uses: int = _max_uses
 
-onready var default_color: Color = body.color
+var default_color: Color
 
 func _ready():
 	randomize()
+	if not default_color:
+		default_color = body.color
 	body.color = default_color.darkened(1 - (float(_uses) / float(_max_uses)))
 
 func explode():
 	stop_levitate()
-	collision_polygon_2d.call_deferred("disabled", true)
+	collision_polygon_2d.set_deferred("disabled", true)
 	
 	var points = body.polygon
 	for _i in range(shard_count):
@@ -75,7 +77,7 @@ func _on_LevitatingObject_body_entered(collider: Node) -> void:
 	var bat: Bat = collider as Bat
 	if bat and player and bat.current_health > 0:
 		bat.take_damage(linear_velocity.length() / weight)
-		bat.impact(linear_velocity * 2)
+		bat.impact(linear_velocity)
 		camera.shake(0.2, 250, linear_velocity.length() / weight)
 		_uses -= 1
 		if _uses <= 0:
