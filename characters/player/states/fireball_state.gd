@@ -18,7 +18,7 @@ func tick(player: Player, delta: float) -> void:
 	elif shoot_timer > 0.0:
 		shoot_timer = (shoot_timer + delta) if shoot_timer < shoot_cooldown else 0
 
-func physics_tick(player: Player, _delta: float) -> void:
+func physics_tick(_player: Player, _delta: float) -> void:
 	pass
 
 func _fire_bullet(player: Player) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://characters/player/player.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
@@ -60,6 +60,40 @@ angle_random = 0.81
 scale = 2.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0.174194, 1 )
+colors = PoolColorArray( 0, 0.0101562, 0.547363, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+
+[sub_resource type="Curve" id=13]
+max_value = 2.0
+_data = [ Vector2( 0, 1.98409 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=14]
+curve = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+lifetime_randomness = 0.36
+trail_divisor = 10
+flag_disable_z = true
+spread = 7.12
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 287.12
+initial_velocity_random = 0.25
+angular_velocity = 199.6
+angular_velocity_random = 0.42
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 25.74
+damping_random = 0.25
+scale = 2.0
+scale_random = 0.46
+scale_curve = SubResource( 14 )
+color_ramp = SubResource( 12 )
 
 [sub_resource type="Animation" id=8]
 resource_name = "End"
@@ -162,6 +196,12 @@ enabled = true
 cast_to = Vector2( 0, 300 )
 collision_mask = 2
 
+[node name="ShrinkRay" type="RayCast2D" parent="."]
+rotation = -1.5708
+enabled = true
+cast_to = Vector2( 0, 300 )
+collision_mask = 4
+
 [node name="Body" type="Polygon2D" parent="."]
 modulate = Color( 1.5, 1.5, 1.5, 1 )
 material = SubResource( 7 )
@@ -185,6 +225,14 @@ lifetime = 3.0
 speed_scale = 5.11
 local_coords = false
 process_material = SubResource( 5 )
+
+[node name="ShrinkingParticles" type="Particles2D" parent="Body/Wand"]
+position = Vector2( 17, 20 )
+emitting = false
+amount = 500
+lifetime = 2.0
+visibility_rect = Rect2( 0, -27.7123, 273.92, 59.1896 )
+process_material = SubResource( 15 )
 
 [node name="BlinkingPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"

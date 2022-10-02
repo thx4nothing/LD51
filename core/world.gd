@@ -69,9 +69,12 @@ func _enemy_died(enemy: Enemy) -> void:
 	var pos = enemy.global_position
 	var rot = enemy.global_rotation
 	var color = enemy.body.color
+	var e_scale = enemy.scale
 	var lev_bat = lev_bat_res.instance()
 	lev_bat.global_position = pos
 	lev_bat.global_rotation = rot
+	print(e_scale)
+	lev_bat.default_scale = e_scale
 	lev_bat.default_color = color
 	ai_region.call_deferred("add_child", lev_bat)
 	#lev_bat.body.color = color

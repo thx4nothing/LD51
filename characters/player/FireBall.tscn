@@ -85,7 +85,7 @@ antialiased = true
 polygon = PoolVector2Array( -2, -8, 2, -8, 6, -4, 6, 4, 2, 8, -2, 8, -6, 4, -6, -4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-scale = Vector2( 1, 0.8 )
+scale = Vector2( 1.96079, 1.5897 )
 polygon = PoolVector2Array( -2, -8, 2, -8, 6, -4, 6, 4, 2, 8, -2, 8, -6, 4, -6, -4 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
@@ -123,6 +123,7 @@ amount = 400
 lifetime = 0.3
 one_shot = true
 explosiveness = 1.0
+visibility_rect = Rect2( -57.6514, -62.9658, 114.716, 118.795 )
 local_coords = false
 process_material = SubResource( 9 )
 

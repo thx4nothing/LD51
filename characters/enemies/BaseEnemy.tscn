@@ -1,10 +1,47 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://characters/enemies/enemy.gd" type="Script" id=1]
 [ext_resource path="res://effects/BloodParticles.tscn" type="PackedScene" id=2]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 polygon = PoolVector2Array( 16, 0, -16, 16, -16, -16 )
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0.174194, 1 )
+colors = PoolColorArray( 0, 0.0101562, 0.547363, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+
+[sub_resource type="Curve" id=13]
+max_value = 2.0
+_data = [ Vector2( 0, 1.98409 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=14]
+curve = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+lifetime_randomness = 0.36
+trail_divisor = 10
+flag_disable_z = true
+spread = 7.12
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 287.12
+initial_velocity_random = 0.25
+angular_velocity = 199.6
+angular_velocity_random = 0.42
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 25.74
+damping_random = 0.25
+scale = 2.0
+scale_random = 0.46
+scale_curve = SubResource( 14 )
+color_ramp = SubResource( 12 )
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 80.0
 
 [node name="Enemy" type="KinematicBody2D"]
 collision_layer = 4
@@ -36,4 +73,19 @@ autostart = true
 [node name="BloodParticles" parent="." instance=ExtResource( 2 )]
 emitting = false
 
+[node name="ShrinkParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 1000
+speed_scale = 0.75
+local_coords = false
+process_material = SubResource( 15 )
+
+[node name="ShrinkStepArea" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShrinkStepArea"]
+shape = SubResource( 7 )
+
 [connection signal="timeout" from="NavTimer" to="." method="_on_NavTimer_timeout"]
+[connection signal="body_entered" from="ShrinkStepArea" to="." method="_on_ShrinkStepArea_body_entered"]

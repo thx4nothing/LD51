@@ -3,13 +3,10 @@ extends State
 var levitating_object: LevitatingObject
 
 func enter(player: Player) -> void:
-	levitating_object = null
-	pass
+	deactivate(player)
 
 func exit(player: Player) -> void:
-	levitating_object = null
-	player.levitate_particles.emitting = false
-	pass
+	deactivate(player)
 	
 func tick(player: Player, _delta: float) -> void:
 	if Input.is_action_pressed("shoot"):
@@ -19,10 +16,13 @@ func tick(player: Player, _delta: float) -> void:
 			if levitating_object:
 				levitating_object.start_levitate(player)
 	else:
-		if levitating_object:
-			levitating_object.stop_levitate()
-			levitating_object = null
-			player.levitate_particles.emitting = false
+		deactivate(player)
+
+func deactivate(player: Player) -> void:
+	player.levitate_particles.emitting = false
+	if levitating_object:
+		levitating_object.stop_levitate()
+		levitating_object = null
 
 func physics_tick(_player: Player, _delta: float) -> void:
 	pass

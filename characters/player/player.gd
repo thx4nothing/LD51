@@ -32,6 +32,8 @@ onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as
 onready var blinkAnimPlayer: AnimationPlayer = $BlinkingPlayer as AnimationPlayer
 onready var blink_timer: Timer = $BlinkTimer as Timer
 onready var blood_particles: Particles2D = $BloodParticles as Particles2D
+onready var shrinking_particles: Particles2D = $Body/Wand/ShrinkingParticles as Particles2D
+onready var shrink_ray: RayCast2D = $ShrinkRay as RayCast2D
 
 # spell changer
 onready var spell_timer: Timer = $SpellTimer as Timer
@@ -71,6 +73,7 @@ func _physics_process(delta: float) -> void:
 	body.rotation = _rotation
 	collision_body.rotation = _rotation
 	levitate_ray.rotation = _rotation - PI / 2
+	shrink_ray.rotation = _rotation - PI / 2
 
 func hurt(amount, source) -> void:
 	if !invincible and not dead:
@@ -82,7 +85,6 @@ func hurt(amount, source) -> void:
 		blood_particles.emitting = true
 		health.take_damage(amount)
 		var normals = source.global_position.direction_to(global_position)
-		print(normals)
 		_knockback += normals * 1000
 
 func _health_changed(value) -> void:

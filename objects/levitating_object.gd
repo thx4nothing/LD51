@@ -10,17 +10,23 @@ var player
 onready var levitate_particles: Particles2D = $LevitateParticles as Particles2D
 onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
 onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D as CollisionPolygon2D
+onready var light_occluder_2d: LightOccluder2D = $LightOccluder2D
 
 export (int) var _max_uses: int = 5
 onready var _uses: int = _max_uses
 
 var default_color: Color
+var default_scale: Vector2
 
 func _ready():
 	randomize()
 	if not default_color:
 		default_color = body.color
 	body.color = default_color.darkened(1 - (float(_uses) / float(_max_uses)))
+	if default_scale:
+		body.scale = default_scale
+		collision_polygon_2d.scale = default_scale
+		light_occluder_2d.scale = default_scale
 
 func explode():
 	stop_levitate()
