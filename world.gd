@@ -3,6 +3,7 @@ class_name GameWorld
 
 onready var ai_region: Navigation2D = $Navigation2D as Navigation2D
 onready var bat_res = preload("res://characters/enemies/Bat.tscn")
+onready var lev_bat_res = preload("res://objects/LevitatingEnemy.tscn")
 
 onready var player := $"%Player" as Player
 onready var camera: Camera2D = $Camera2D as Camera2D
@@ -40,8 +41,6 @@ func _ready() -> void:
 	get_node(death_screen).visible = false
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
 	if Input.is_action_just_pressed("debug_spawn_enemy"):
 		spawn_enemy()
 #	if Input.is_action_just_pressed("command_fall_back"):
@@ -66,10 +65,19 @@ func spawn_enemy() -> void:
 	enemy.speed = enemy.speed * rand_range(0.5, 1.0)
 	enemy.connect("died", self, "_enemy_died")
 		
-func _enemy_died(_enemy: Node) -> void:
+func _enemy_died(enemy: Enemy) -> void:
+	var pos = enemy.global_position
+	var rot = enemy.global_rotation
+	enemy.queue_free()
+	var lev_bat = lev_bat_res.instance()
+	lev_bat.global_position = pos
+	lev_bat.global_rotation = rot
+	ai_region.add_child(lev_bat)
+	
 	enemy_counter += 1
 	player_score.get_points(wave+1)
 	if enemy_counter >= wave_threshold:
 		wave += 1
 		wave_threshold = wave_threshold * 1.3
 		enemy_counter = 0
+	

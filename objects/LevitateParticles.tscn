@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 1, 1, 1, 1, 0.355469, 0.355469, 0.355469, 0.788235 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+lifetime_randomness = 0.3
+trail_divisor = 5
+emission_shape = 5
+emission_ring_radius = 19.73
+emission_ring_inner_radius = 32.68
+emission_ring_height = 0.0
+emission_ring_axis = Vector3( 0, 1, 0 )
+flag_disable_z = true
+spread = 11.37
+flatness = 0.65
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 43.52
+angular_velocity = 38.63
+angular_velocity_random = 0.63
+orbit_velocity = 0.8
+orbit_velocity_random = 0.26
+color_ramp = SubResource( 2 )
+
+[node name="LevitateParticles" type="Particles2D"]
+emitting = false
+amount = 500
+process_material = SubResource( 3 )

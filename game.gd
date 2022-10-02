@@ -22,7 +22,12 @@ func _on_RestartButton_pressed() -> void:
 		high_score.high_score = player_score.score
 		$"%HiScoreLabel".text = "Highscore: " + str(high_score.high_score)
 	player_score.lose_points(player_score.score)
-	get_tree().reload_current_scene()
+	if not get_tree().reload_current_scene() == OK:
+		get_tree().quit()
 
-func _player_spell_changed(new_spell) -> void:
+func _input(event: InputEvent) -> void:
+	if event and event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+
+func _player_spell_changed(_new_spell) -> void:
 	$"%SpellLabelTimer".start()

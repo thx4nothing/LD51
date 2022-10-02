@@ -1,7 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://characters/fire_ball.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
+
+[sub_resource type="PhysicsMaterial" id=10]
+bounce = 7.01
+absorbent = true
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0193548, 0.180645, 1 )
@@ -67,6 +71,7 @@ color_ramp = SubResource( 6 )
 collision_layer = 8
 collision_mask = 36
 mass = 3.0
+physics_material_override = SubResource( 10 )
 continuous_cd = 1
 contacts_reported = 3
 contact_monitor = true

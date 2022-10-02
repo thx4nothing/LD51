@@ -33,7 +33,6 @@ func take_damage(dmg: float) -> void:
 	current_health -= dmg
 	if current_health <= 0:
 		emit_signal("died", self)
-		set_physics_process(false)
 		blood_particles.one_shot = false
 		blood_particles.explosiveness = 0
 		blood_particles.speed_scale = 1
@@ -45,25 +44,25 @@ func take_damage(dmg: float) -> void:
 		blood_particles.emitting = true
 
 func _physics_process(delta: float) -> void:
-	if navigation_agent_2d.is_navigation_finished():
-		return
-	var direction := global_position.direction_to(navigation_agent_2d.get_next_location())
-	var desired_velocity := direction * speed
-	var steering := (desired_velocity - velocity) * delta * 4.0
-	velocity += steering
-	#add_central_force(velocity)
-	velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
-	var _rotation := velocity.angle() 
-	body.rotation = _rotation
-	collision_body.rotation = _rotation
-	for i in get_slide_count():
-		var collision = get_slide_collision(i)
-		if collision.collider is RigidBody2D:
-			#print("Collided with: ", collision.collider.name)
-			collision.collider.apply_central_impulse(-collision.normal * velocity.length())
-		if collision.collider == player:
-			player.hurt(damage)
-
+	if current_health > 0:
+		if navigation_agent_2d.is_navigation_finished():
+			return
+		var direction := global_position.direction_to(navigation_agent_2d.get_next_location())
+		var desired_velocity := direction * speed
+		var steering := (desired_velocity - velocity) * delta * 4.0
+		velocity += steering
+		#add_central_force(velocity)
+		velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
+		var _rotation := velocity.angle() 
+		body.rotation = _rotation
+		collision_body.rotation = _rotation
+		for i in get_slide_count():
+			var collision = get_slide_collision(i)
+			if collision.collider is RigidBody2D:
+				#print("Collided with: ", collision.collider.name)
+				collision.collider.apply_central_impulse(-collision.normal * velocity.length())
+			if collision.collider == player:
+				player.hurt(damage)
 
 func _on_NavTimer_timeout() -> void:
 	if player:

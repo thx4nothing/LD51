@@ -64,16 +64,22 @@ navpoly = SubResource( 1 )
 unique_name_in_owner = true
 
 [node name="Crate" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( 173, 61 )
+position = Vector2( -461, -118 )
 
 [node name="Crate2" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( 145, -94 )
+position = Vector2( -7, -118 )
 
 [node name="Crate3" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( -191, -108 )
+position = Vector2( 417, -125 )
 
 [node name="Crate4" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( -198, 78 )
+position = Vector2( 435, 211 )
+
+[node name="Crate5" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( 1, 216 )
+
+[node name="Crate6" parent="Navigation2D" instance=ExtResource( 9 )]
+position = Vector2( -465, 235 )
 
 [node name="Spikes" type="Node" parent="."]
 

@@ -25,7 +25,7 @@ onready var levitate_particles: Particles2D = $Body/Wand/LevitateParticles as Pa
 
 var current_fire_mode = FireMode.Levitate
 
-var selected_create: Crate
+var levitating_object: LevitatingObject
 
 export (Resource) var health
 signal died
@@ -63,16 +63,16 @@ func _process(delta: float) -> void:
 		FireMode.Levitate:
 			if Input.is_action_pressed("shoot"):
 				levitate_particles.emitting = true
-				if not selected_create and levitate_ray.is_colliding():
-					var crate: = levitate_ray.get_collider() as Crate
+				if not levitating_object and levitate_ray.is_colliding():
+					var crate: = levitate_ray.get_collider() as LevitatingObject
 					if crate:
-						selected_create = crate
-						selected_create.start_levitate(self)
+						levitating_object = crate
+						levitating_object.start_levitate(self)
 	if not Input.is_action_pressed("shoot") or current_fire_mode != FireMode.Levitate:
 		levitate_particles.emitting = false
-		if selected_create:
-			selected_create.stop_levitate()
-			selected_create = null
+		if levitating_object:
+			levitating_object.stop_levitate()
+			levitating_object = null
 
 func _physics_process(delta: float) -> void:
 	if dead: return
