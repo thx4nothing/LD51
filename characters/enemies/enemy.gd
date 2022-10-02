@@ -40,7 +40,7 @@ func _ready() -> void:
 
 func impact(impulse: Vector2) -> void:
 	velocity += impulse
-	#navigation_agent_2d.set_velocity(velocity)
+	move(velocity)
 
 func move(_velocity: Vector2) -> void:
 	velocity = move_and_slide(_velocity, Vector2.ZERO, false, 4, 0.785398, false)
