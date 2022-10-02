@@ -4,11 +4,15 @@ class_name GameWorld
 onready var ai_region: Navigation2D = $Navigation2D as Navigation2D
 onready var bat_res = preload("res://characters/enemies/Bat.tscn") as PackedScene
 onready var skel_res = preload("res://characters/enemies/Skeleton.tscn") as PackedScene
+onready var potion_res = preload("res://objects/Potion.tscn") as PackedScene
+onready var crate_res = preload("res://objects/Crate.tscn") as PackedScene
+onready var spike_res = preload("res://objects/SpikeWall.tscn") as PackedScene
 onready var lev_bat_res = preload("res://objects/LevitatingBat.tscn") as PackedScene
 onready var lev_skel_res = preload("res://objects/LevitatingSkeleton.tscn") as PackedScene
 onready var enemy_res: Array = [bat_res, skel_res] as Array
 
 onready var enemy_costs: Dictionary = {bat_res: 1, skel_res: 2}
+onready var item_costs: Dictionary = {potion_res: 1, crate_res: 2, spike_res: 3}
 
 
 onready var player := $"%Player" as Player
@@ -20,20 +24,17 @@ export (NodePath) var death_screen
 # waves
 var wave: int = 0
 var wave_budget: int = 3
+var items_budget: int = 3
 var enemies: Array = []
 var difficulty: float = 0.1
 onready var wave_timer: Timer = $WaveTimer as Timer
-#var enemy_counter: int = 0
-#var wave_threshold: float = 3
-onready var enemy_spawn_points: Node = $EnemySpawnPoints as Node
-
-
+onready var spawn_points: Node = $SpawnPoints as Node
 
 export (Resource) var player_score
 
 var random_spawn_pos: Vector2 = Vector2.ZERO
 func get_random_spawn_pos() -> Vector2:
-	var spawn_pos: Vector2 = enemy_spawn_points.get_children()[randi() % enemy_spawn_points.get_children().size()].global_position
+	var spawn_pos: Vector2 = spawn_points.get_children()[randi() % spawn_points.get_children().size()].global_position
 	return spawn_pos
 #		var vsize = camera.get_viewport_rect().size
 #		var camera_pos = camera.global_position
@@ -56,40 +57,37 @@ func _ready() -> void:
 	get_node(game_over_screen).visible = false
 	get_node(death_screen).visible = false
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("debug_spawn_enemy"):
-		spawn_enemy(enemy_res[randi() % enemy_res.size()])
-#	if Input.is_action_just_pressed("command_fall_back"):
-#		camera.shake(0.5, 1000, 2)
-	#var enemy_spawn_rate = wave * log(wave + 1) # per second
-	#enemy_spawn_rate = 0.1 * wave
-	#var spawn_chance = enemy_spawn_rate * delta #1 - pow(0.5, delta)
-	#if randf() <= spawn_chance:
-	#	spawn_enemy()
-
 func _player_died() -> void:
 	get_node(game_over_screen).visible = true
 	get_node(death_screen).visible = true
 
 func next_wave() -> void:
 	wave += 1
-	wave_budget = wave * 5
+	wave_budget = wave * 4
+	items_budget = wave * 3
 	difficulty += 0.1
 	while wave_budget > 0:
 		var random = enemy_costs.keys()[randi() % enemy_costs.keys().size()]
 		if enemy_costs[random] <= wave_budget:
 			wave_budget -= enemy_costs[random]
-			spawn_enemy(random)
+			spawn_object(random)
+	while items_budget > 0:
+		var random = item_costs.keys()[randi() % item_costs.keys().size()]
+		if item_costs[random] <= items_budget:
+			items_budget -= item_costs[random]
+			spawn_object(random)
+	print(enemies)
 
-func spawn_enemy(enemyr: PackedScene) -> void:
+func spawn_object(enemyr: PackedScene) -> void:
 	var enemy = enemyr.instance()
 	ai_region.add_child(enemy)
-	enemies.append(enemy)
-	enemy.global_position = get_random_spawn_pos()
-	enemy.max_health += (-10 + (randi() % 50)) * difficulty
-	enemy.current_health = enemy.max_health
-	enemy.speed *= rand_range(0.5 + difficulty, 0.8 + difficulty)
-	enemy.connect("died", self, "_enemy_died")
+	if enemy is Enemy:
+		enemies.append(enemy)
+		enemy.global_position = get_random_spawn_pos()
+		enemy.max_health += (-10 + (randi() % 50)) * difficulty
+		enemy.current_health = enemy.max_health
+		enemy.speed *= rand_range(0.5 + difficulty, 0.8 + difficulty)
+		enemy.connect("died", self, "_enemy_died")
 		
 func _enemy_died(enemy: Enemy) -> void:
 	_spawn_levitating_enemy(enemy)

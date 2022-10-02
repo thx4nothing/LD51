@@ -5,11 +5,11 @@ onready var shoot_timer: Timer = $ShootTimer
 
 onready var arrow_res: PackedScene = preload("res://characters/enemies/Arrow.tscn") as PackedScene
 
-export (float) var shooting_range: float = 200.0
+
 export (float) var shoot_cooldown: float = 1.0
 
 func _ready() -> void:
-	navigation_agent_2d.target_desired_distance = shooting_range
+	navigation_agent_2d.target_desired_distance = 200
 
 func _on_ShootingArea_body_entered(body: Node) -> void:
 	if body is Player:

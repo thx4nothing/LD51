@@ -8,7 +8,6 @@ radius = 300.0
 
 [node name="Skeleton" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-shooting_range = 200.0
 shoot_cooldown = 1.0
 
 [node name="Body" parent="." index="0"]

@@ -16,6 +16,7 @@ onready var player = get_tree().get_nodes_in_group("player")[0]
 
 # navigation
 onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D as NavigationAgent2D
+export (float) var shooting_range: float = 16.0
 
 # nodes
 onready var body: Polygon2D = $Body as Polygon2D
@@ -91,10 +92,12 @@ func _process(delta: float) -> void:
 			stop_shrinking()
 			shrunk = true
 			speed *= _shrinking_speed
+			navigation_agent_2d.target_desired_distance = 16
 	elif not shrinking:
 		_shrink(-_growth_speed * delta)
 		if scale.x == 1 and shrunk:
 			shrunk = false
+			navigation_agent_2d.target_desired_distance = shooting_range
 			speed /= _shrinking_speed
 
 func _physics_process(delta: float) -> void:

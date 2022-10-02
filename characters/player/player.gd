@@ -61,8 +61,6 @@ func _process(delta: float) -> void:
 	if dead: return
 	_current_spell.tick(self, delta)
 	score.get_points(delta)
-	if Input.is_action_just_pressed("debug_change_mode"):
-		_choose_random_spell()
 
 func _physics_process(delta: float) -> void:
 	if dead: return
@@ -90,7 +88,9 @@ func _physics_process(delta: float) -> void:
 	shrink_ray.rotation = _rotation - PI / 2
 
 func hurt(amount, source) -> void:
-	if !invincible and not dead:
+	if amount < 0:
+		health.heal(-amount)
+	elif !invincible and not dead:
 		invincible = true
 		camera.shake(0.2, 250, amount)
 		blinkAnimPlayer.play("Start")
