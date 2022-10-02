@@ -84,7 +84,6 @@ occluder = SubResource( 1 )
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 16.0
-avoidance_enabled = true
 radius = 40.0
 neighbor_dist = 100.0
 time_horizon = 10.0

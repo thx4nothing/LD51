@@ -125,6 +125,7 @@ func _physics_process(delta: float) -> void:
 		var steering := (desired_velocity - velocity) * delta * 4.0
 		velocity += steering
 		navigation_agent_2d.set_velocity(velocity)
+		move(velocity)
 		#add_central_force(velocity)
 		if randf() > 0.995 and not battle_cry_sound.playing:
 			battle_cry_sound.play()
