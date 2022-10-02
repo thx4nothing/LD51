@@ -22,9 +22,9 @@ glow_hdr_luminance_cap = 2.0
 glow_bicubic_upscale = true
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( -1298, 807, -993, -814, 1115, -827, 1406, 814 )
+vertices = PoolVector2Array( -4918, 4927, -4939, -4951, 4939, -4951, 4960, 4948 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -1298, 807, -993, -814, 1115, -827, 1406, 814 ) ]
+outlines = [ PoolVector2Array( -4918, 4927, -4939, -4951, 4939, -4951, 4960, 4948 ) ]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 4 )
@@ -50,10 +50,10 @@ target = NodePath("../Navigation2D/Player")
 [node name="Node" type="Node" parent="Camera2D"]
 
 [node name="TopLeft" type="Position2D" parent="Camera2D/Node"]
-position = Vector2( -737, -430 )
+position = Vector2( -4884, -4913 )
 
 [node name="BottomRight" type="Position2D" parent="Camera2D/Node"]
-position = Vector2( 828, 465 )
+position = Vector2( 4915, 4888 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
@@ -83,26 +83,28 @@ position = Vector2( 76, -266 )
 [node name="SpikeWall8" parent="Navigation2D/Spikes" instance=ExtResource( 8 )]
 position = Vector2( 108, -266 )
 
+[node name="Crates" type="Node" parent="Navigation2D"]
+
+[node name="Crate" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( -461, -118 )
+
+[node name="Crate2" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( -7, -118 )
+
+[node name="Crate3" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( 417, -125 )
+
+[node name="Crate4" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( 435, 211 )
+
+[node name="Crate5" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( 1, 216 )
+
+[node name="Crate6" parent="Navigation2D/Crates" instance=ExtResource( 9 )]
+position = Vector2( -465, 235 )
+
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 navpoly = SubResource( 1 )
 
 [node name="Player" parent="Navigation2D" groups=["player"] instance=ExtResource( 10 )]
 unique_name_in_owner = true
-
-[node name="Crate" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( -461, -118 )
-
-[node name="Crate2" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( -7, -118 )
-
-[node name="Crate3" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( 417, -125 )
-
-[node name="Crate4" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( 435, 211 )
-
-[node name="Crate5" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( 1, 216 )
-
-[node name="Crate6" parent="Navigation2D" instance=ExtResource( 9 )]
-position = Vector2( -465, 235 )

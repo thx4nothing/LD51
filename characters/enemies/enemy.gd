@@ -2,7 +2,7 @@ extends KinematicBody2D
 class_name Enemy
 
 # movement
-export (float) var speed := 200.0
+export (float) var speed := 500.0
 var velocity: Vector2 = Vector2.ZERO
 
 # hp and damage

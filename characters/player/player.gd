@@ -18,9 +18,12 @@ func set_state(new_state):
 
 # movement
 var _velocity: Vector2 = Vector2.ZERO
-export var _acceleration: float = 10000 # p/s^2
-export var _max_speed: float = 300 # p/s
+export var speed: float = 300 # p/s
+export var friction = 0.18
 var _knockback: Vector2 = Vector2.ZERO
+export var dodge_speed: float = 25000
+export var dodge_cooldown: float = 3.0
+var dodged: bool = false
 
 # nodes
 onready var _shoot_point: Position2D = $Body/Wand/ShootPoint as Position2D
@@ -34,6 +37,7 @@ onready var blink_timer: Timer = $BlinkTimer as Timer
 onready var blood_particles: Particles2D = $BloodParticles as Particles2D
 onready var shrinking_particles: Particles2D = $Body/Wand/ShrinkingParticles as Particles2D
 onready var shrink_ray: RayCast2D = $ShrinkRay as RayCast2D
+onready var dodge_timer: Timer = $DodgeTimer as Timer
 
 # spell changer
 onready var spell_timer: Timer = $SpellTimer as Timer
@@ -62,13 +66,22 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if dead: return
 	state.physics_tick(self, delta)
-	var direction: = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
-	var _move_vector: Vector2 = _acceleration * direction * delta + _knockback
-	if _knockback != Vector2.ZERO:
+	var direction: = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+	if direction.length() > 1.0:
+		direction = direction.normalized()
+	var target_velocity = direction * speed
+	
+	if direction and Input.is_action_just_pressed("dodge") and not _knockback and not dodged:
+		dodged = true
+		dodge_timer.start(dodge_cooldown)
+		target_velocity += direction * dodge_speed
+	elif _knockback:
+		target_velocity += _knockback
 		_knockback.x = move_toward(_knockback.x, 0, 100)
 		_knockback.y = move_toward(_knockback.y, 0, 100)
-		print(_move_vector)
-	_velocity = move_and_slide(_move_vector)
+	
+	_velocity += (target_velocity - _velocity) * friction
+	_velocity = move_and_slide(_velocity)
 	var _rotation: float = get_angle_to(get_global_mouse_position())
 	body.rotation = _rotation
 	collision_body.rotation = _rotation
@@ -85,7 +98,7 @@ func hurt(amount, source) -> void:
 		blood_particles.emitting = true
 		health.take_damage(amount)
 		var normals = source.global_position.direction_to(global_position)
-		_knockback += normals * 1000
+		_knockback = normals * 1000
 
 func _health_changed(value) -> void:
 	if value <= 0 and not dead:
@@ -107,3 +120,7 @@ func _choose_random_spell() -> void:
 	while state == prev_state:
 		self.state = $"%States".get_children()[randi() % spell_count]
 	emit_signal("spell_changed", state)
+
+
+func _on_DodgeTimer_timeout() -> void:
+	dodged = false

@@ -223,6 +223,7 @@ emitting = false
 amount = 1000
 lifetime = 3.0
 speed_scale = 5.11
+visibility_rect = Rect2( -22, -46.313, 271.513, 85.2066 )
 local_coords = false
 process_material = SubResource( 5 )
 
@@ -264,5 +265,10 @@ script = ExtResource( 6 )
 [node name="Shrink" type="Node" parent="States"]
 script = ExtResource( 7 )
 
+[node name="DodgeTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
 [connection signal="timeout" from="SpellTimer" to="." method="_on_SpellTimer_timeout"]
+[connection signal="timeout" from="DodgeTimer" to="." method="_on_DodgeTimer_timeout"]
