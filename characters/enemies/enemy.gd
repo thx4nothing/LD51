@@ -83,6 +83,8 @@ func take_damage(dmg: float) -> void:
 			body.color = default_color.lightened(1 - new_color_index)
 
 func _process(delta: float) -> void:
+	if navigation_agent_2d.get_final_location().distance_to(global_position) > 1000:
+		take_damage(1000)
 	if shrinking and not shrunk:
 		_shrink(_shrinking_speed * delta)
 		if scale.x <= 0.35:
@@ -124,6 +126,6 @@ func _shrink(amount: float) -> void:
 	shrink_step_area.scale.x = clamp(scale.x - amount, 0.3, 1)
 	shrink_step_area.scale.y = clamp(scale.y - amount, 0.3, 1)
 
-func _on_ShrinkStepArea_body_entered(body: Node) -> void:
+func _on_ShrinkStepArea_body_entered(_collider: Node) -> void:
 	if shrunk:
 		take_damage(current_health)

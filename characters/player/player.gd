@@ -8,13 +8,14 @@ onready var FireBallState = $States/FireBall
 onready var LevitateState = $States/Levitate
 onready var ShrinkState = $States/Shrink
 
-var state = null setget set_state
-func set_state(new_state):
-		if new_state == state: return
-		if state: state.exit(self)
-		if new_state:
-			state = new_state
-			state.enter(self)
+var _current_spell = null setget set_state
+var _next_spell
+func set_state(value):
+		if value == _current_spell: return
+		if _current_spell: _current_spell.exit(self)
+		if value:
+			_current_spell = value
+			_current_spell.enter(self)
 
 # movement
 var _velocity: Vector2 = Vector2.ZERO
@@ -41,9 +42,9 @@ onready var dodge_timer: Timer = $DodgeTimer as Timer
 
 # spell changer
 onready var spell_timer: Timer = $SpellTimer as Timer
-signal spell_changed(new_spell)
+signal spell_changed(_current_spell, _next_spell)
 
-# health state
+# health _current_spell
 export (Resource) var health
 signal died
 var invincible: bool = false
@@ -58,14 +59,14 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if dead: return
-	state.tick(self, delta)
+	_current_spell.tick(self, delta)
 	score.get_points(delta)
 	if Input.is_action_just_pressed("debug_change_mode"):
 		_choose_random_spell()
 
 func _physics_process(delta: float) -> void:
 	if dead: return
-	state.physics_tick(self, delta)
+	_current_spell.physics_tick(self, delta)
 	var direction: = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
 	if direction.length() > 1.0:
 		direction = direction.normalized()
@@ -115,11 +116,13 @@ func _on_SpellTimer_timeout() -> void:
 	_choose_random_spell()
 
 func _choose_random_spell() -> void:
-	var prev_state = state
+	if not _next_spell:
+		_next_spell = $"%States".get_children()[randi() % $"%States".get_children().size()]
+	self._current_spell = _next_spell
 	var spell_count = $"%States".get_children().size()
-	while state == prev_state:
-		self.state = $"%States".get_children()[randi() % spell_count]
-	emit_signal("spell_changed", state)
+	while _next_spell == _current_spell:
+		_next_spell = $"%States".get_children()[randi() % spell_count]
+	emit_signal("spell_changed", _current_spell, _next_spell)
 
 
 func _on_DodgeTimer_timeout() -> void:

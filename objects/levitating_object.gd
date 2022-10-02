@@ -12,7 +12,7 @@ onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as
 onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D as CollisionPolygon2D
 onready var light_occluder_2d: LightOccluder2D = $LightOccluder2D
 
-export (int) var _max_uses: int = 5
+export (int) var _max_uses: int = 7
 onready var _uses: int = _max_uses
 
 var default_color: Color

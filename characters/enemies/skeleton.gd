@@ -15,7 +15,7 @@ func _on_ShootingArea_body_entered(body: Node) -> void:
 	if body is Player:
 		shoot_timer.start(shoot_cooldown)
 
-func _on_ShootingArea_body_exited(body: Node) -> void:
+func _on_ShootingArea_body_exited(_body: Node) -> void:
 	shoot_timer.stop()
 
 func _on_ShootTimer_timeout() -> void:

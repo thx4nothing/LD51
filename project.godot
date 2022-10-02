@@ -99,7 +99,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LD51"
-run/main_scene="res://core/Game.tscn"
+run/main_scene="res://core/Menu.tscn"
 config/icon="res://icon.png"
 
 [display]
