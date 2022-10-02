@@ -4,7 +4,6 @@ onready var world: Node2D = $World
 var world_res = load("res://World.tscn")
 
 export (Resource) var high_score
-
 export (Resource) var player_score
 
 onready var player = get_tree().get_nodes_in_group("player")[0]

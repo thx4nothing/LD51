@@ -101,8 +101,8 @@ func hurt(amount) -> void:
 		camera.shake(0.2, 250, amount)
 		blinkAnimPlayer.play("Start")
 		blink_timer.start()
-		blood_particles.emitting = true
 		blood_particles.one_shot = true
+		blood_particles.emitting = true
 		health.take_damage(amount)
 
 func _health_changed(value) -> void:

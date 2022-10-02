@@ -10,7 +10,7 @@ onready var camera: Camera2D = $Camera2D as Camera2D
 export (NodePath) var game_over_screen
 export (NodePath) var death_screen
 
-var wave: int = 1
+var wave: int = 2
 var enemy_counter: int = 0
 var wave_threshold: float = 3
 
@@ -51,9 +51,6 @@ func _process(delta: float) -> void:
 	var spawn_chance = enemy_spawn_rate * delta #1 - pow(0.5, delta)
 	if randf() <= spawn_chance:
 		spawn_enemy()
-
-func _on_day_timer_timeout() -> void:
-	pass
 
 func _player_died() -> void:
 	get_node(game_over_screen).visible = true

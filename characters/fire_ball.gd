@@ -1,41 +1,52 @@
 extends RigidBody2D
 class_name FireBall
 
-export (float) var damage = 20.0
-export (float) var lifetime = 2.0
-export (float) var max_bounces: int = 1
-var bounces: int = 0
-var bounced: bool = false
-onready var life_timer: Timer = $LifeTimer as Timer
-onready var bounce_timer: Timer = $BounceTimer as Timer
+# projectile dmg
+export (float) var _damage: float = 20.0
+
+# _bounces
+export (float) var _max_bounces: int = 1
+var _bounces: int = 0
+var _bounced: bool = false
+onready var _bounce_timer: Timer = $BounceTimer as Timer
+
+# life timer
+export (float) var _lifetime = 2.0
+onready var _life_timer: Timer = $LifeTimer as Timer
+
+# aoe calculations
+onready var _aoe_radius: Area2D = $AoERadius as Area2D
+
+# player _camera
+onready var _camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
+
+onready var explosion_particles: Particles2D = $ExplosionParticles as Particles2D
+
 
 func _ready() -> void:
-	life_timer.start(lifetime)
-	pass # Replace with function body.
-
-
-func _process(_delta: float) -> void:
-	pass
-
+	_life_timer.start(_lifetime)
 
 func _on_FireBall_body_entered(collider: Node) -> void:
-	print(collider)
-	if collider is StaticBody2D and not bounced:
-		bounces += 1
-		bounced = true
-		bounce_timer.start(0.2)
-		if bounces > max_bounces:
+	if collider is StaticBody2D and not _bounced:
+		_bounces += 1
+		_bounced = true
+		_bounce_timer.start(0.2)
+		if _bounces > _max_bounces:
 			queue_free()
 	elif collider is Bat:
-		var bat: Bat = collider as Bat
-		bat.take_damage(damage)
-		bat.impact(linear_velocity / weight)
-		print(bat.current_health)
-
+		for enemy in _aoe_radius.get_overlapping_bodies():
+			var bat: Bat = enemy as Bat
+			if bat and bat.current_health > 0:
+				bat.take_damage(_damage)
+				bat.impact(linear_velocity)
+				_camera.shake(0.2, 250, linear_velocity.length() / weight)
+		explosion_particles.emitting = true
+		_life_timer.start(0.1)
+	elif collider is Crate:
+		(collider as Crate).hit(self)
 
 func _on_LifeTimer_timeout() -> void:
 	queue_free()
 
-
 func _on_BounceTimer_timeout() -> void:
-	bounced = false
+	_bounced = false

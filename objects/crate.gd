@@ -9,9 +9,9 @@ onready var body: Polygon2D = $Body
 var player
 onready var levitate_particles: Particles2D = $LevitateParticles as Particles2D
 onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
+onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D as CollisionPolygon2D
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
 
@@ -69,28 +69,21 @@ func stop_levitate() -> void:
 	player = null
 	levitate_particles.emitting = false
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	
-	#we wan't to chuck our traingles out from the center of the parent
 	for child in shard_velocity_map.keys():
 		child.position -= shard_velocity_map[child] * delta * explosion_speed
 		child.rotation -= shard_velocity_map[child].x * delta * (explosion_speed * 0.01)
 		explosion_speed = move_toward(explosion_speed, 0, 0.05)
-		#apply gravity to the velocity map so the triangle falls
-		#shard_velocity_map[child].y -= delta * 55
 
 func _on_Crate_body_entered(collider: Node) -> void:
 	var bat: Bat = collider as Bat
-	if bat and player:
+	if bat and player and bat.current_health > 0:
 		bat.impact(linear_velocity * 2)
 		camera.shake(0.2, 250, linear_velocity.length() / weight)
-		#print(linear_velocity)
-		
-	if !exploded and collider is FireBall:
-		var thing: RigidBody2D = collider as RigidBody2D
+
+func hit(fireball) -> void:
+	if !exploded and fireball:
 		exploded = true
-		explosion_speed = thing.linear_velocity.length() / weight
-		print(explosion_speed)
+		explosion_speed = fireball.linear_velocity.length() / weight
+		collision_polygon_2d.disabled = true
 		explode()

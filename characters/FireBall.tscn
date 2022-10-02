@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://characters/fire_ball.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
@@ -28,6 +28,40 @@ orbit_velocity_random = 0.0
 scale = 3.95
 scale_random = 0.69
 color_ramp = SubResource( 2 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 63.43
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 0.621094, 0, 0, 1, 1, 0.914063, 0, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+max_value = 2.0
+_data = [ Vector2( 0, 2 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+trail_divisor = 4
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.32
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 191.3
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.72
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
 [node name="FireBall" type="RigidBody2D"]
 collision_layer = 8
@@ -70,6 +104,22 @@ color = Color( 0.341176, 0.305882, 0.180392, 0.654902 )
 energy = 0.5
 shadow_enabled = true
 shadow_filter = 4
+
+[node name="AoERadius" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AoERadius"]
+shape = SubResource( 4 )
+
+[node name="ExplosionParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 400
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 9 )
 
 [connection signal="body_entered" from="." to="." method="_on_FireBall_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]
