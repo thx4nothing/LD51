@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends RigidBody2D
 
 export (float) var damage = 100.0
 # Declare member variables here. Examples:

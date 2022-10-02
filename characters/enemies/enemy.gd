@@ -27,9 +27,25 @@ onready var default_color: Color = body.color
 func _ready() -> void:
 	if player:
 		navigation_agent_2d.set_target_location(player.global_position)
+		navigation_agent_2d.connect("velocity_computed", self, "move")
 
 func impact(impulse: Vector2) -> void:
 	velocity += impulse
+	#navigation_agent_2d.set_velocity(velocity)
+
+func move(_velocity: Vector2) -> void:
+	velocity = move_and_slide(_velocity, Vector2.ZERO, false, 4, 0.785398, false)
+	var _rotation := velocity.angle() 
+	body.rotation = _rotation
+	collision_body.rotation = _rotation
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if collision.collider is RigidBody2D:
+			#print("Collided with: ", collision.collider.name)
+			collision.collider.apply_central_impulse(-collision.normal * velocity.length())
+		if collision.collider == player:
+			player.hurt(damage)
+	pass
 
 func take_damage(dmg: float) -> void:
 	current_health -= dmg
@@ -55,18 +71,9 @@ func _physics_process(delta: float) -> void:
 		var desired_velocity := direction * speed
 		var steering := (desired_velocity - velocity) * delta * 4.0
 		velocity += steering
+		navigation_agent_2d.set_velocity(velocity)
 		#add_central_force(velocity)
-		velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
-		var _rotation := velocity.angle() 
-		body.rotation = _rotation
-		collision_body.rotation = _rotation
-		for i in get_slide_count():
-			var collision = get_slide_collision(i)
-			if collision.collider is RigidBody2D:
-				#print("Collided with: ", collision.collider.name)
-				collision.collider.apply_central_impulse(-collision.normal * velocity.length())
-			if collision.collider == player:
-				player.hurt(damage)
+
 
 func _on_NavTimer_timeout() -> void:
 	if player:
