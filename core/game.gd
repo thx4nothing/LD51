@@ -3,6 +3,8 @@ extends Node
 export (Resource) var high_score
 export (Resource) var player_score
 
+export (Color) var gradient_color: Color
+
 onready var player = get_tree().get_nodes_in_group("player")[0]
 
 onready var fireball_info_tex: Texture = preload("res://assets/fireball_info.png") as Texture
@@ -37,25 +39,22 @@ func _player_spell_changed(_current_spell, _next_spell) -> void:
 			old_color = Color.crimson
 		"Levitate":			
 			old_color = Color.gray
-			#$"%SpellInfo".texture = levitate_info_tex
 		"Shrink":
 			old_color = Color.darkblue
-			#$"%SpellInfo".texture = shrink_info_tex
 	match _next_spell.name:
 		"FireBall":
 			new_color = Color.crimson
-			#$"%SpellInfo".texture = fireball_info_tex
 		"Levitate":
 			new_color = Color.gray
-			#$"%SpellInfo".texture = levitate_info_tex
 		"Shrink":
 			new_color = Color.darkblue
-			#$"%SpellInfo".texture = shrink_info_tex
-	
-	print(old_color)
-	print(new_color)
-	print(gradient.colors[0])
-	tween.interpolate_property(gradient, "colors", old_color, new_color, 10, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	gradient.colors[0] = old_color
+	if not gradient_color:
+		gradient_color = old_color
+	tween.interpolate_property(self, "gradient_color", old_color, new_color.lightened(0.5), 10, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
-	#gradient.colors[0] = new_color
 	$"%SpellLabelTimer".start()
+
+
+func _on_SpellInfoTween_tween_step(object: Object, key: NodePath, elapsed: float, value: Object) -> void:
+	gradient.colors[0] = gradient_color

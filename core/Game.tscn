@@ -128,6 +128,7 @@ margin_right = 73.0
 margin_bottom = 56.0
 text = "Restart"
 
+[connection signal="tween_step" from="CanvasLayer/GUI/SpellInfo/SpellInfoTween" to="." method="_on_SpellInfoTween_tween_step"]
 [connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/HBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
 
 [editable path="World"]

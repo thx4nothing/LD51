@@ -19,7 +19,7 @@ func _on_ShootingArea_body_exited(_body: Node) -> void:
 	shoot_timer.stop()
 
 func _on_ShootTimer_timeout() -> void:
-	if not player: return
+	if not player or shrunk: return
 	var arrow := arrow_res.instance() as Arrow
 	var angle: float = player.global_position.angle_to_point(global_position)
 	arrow.rotation = angle
