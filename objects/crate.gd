@@ -11,38 +11,32 @@ onready var levitate_particles: Particles2D = $LevitateParticles as Particles2D
 onready var camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] as PlayerCamera
 onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D as CollisionPolygon2D
 
+export (int) var _max_uses: int = 5
+onready var _uses: int = _max_uses
+
+onready var default_color: Color = body.color
 
 func _ready():
 	randomize()
+	body.color = default_color.darkened(1 - (float(_uses) / float(_max_uses)))
 
 func explode():
-	#this will let us add more points to our polygon later on
+	stop_levitate()
+	collision_polygon_2d.disabled = true
+	
 	var points = body.polygon
 	for i in range(shard_count):
 		points.append(Vector2(randi()%16, randi()%16))
-	
-	
 	var delaunay_points = Geometry.triangulate_delaunay_2d(points)
-	
 	if not delaunay_points:
 		print("serious error occurred no delaunay points found")
-	
-	#loop over each returned triangle
 	for index in len(delaunay_points) / 3:
 		var shard_pool = PoolVector2Array()
-		#find the center of our triangle
 		var center = Vector2.ZERO
-		
-		# loop over the three points in our triangle
 		for n in range(3):
 			shard_pool.append(points[delaunay_points[(index * 3) + n]])
 			center += points[delaunay_points[(index * 3) + n]]
-			
-		# adding all the points and dividing by the number of points gets the mean position
 		center /= 3
-		
-		#create a new polygon to give these points to
-		
 		var shard = Polygon2D.new()
 		shard.polygon = shard_pool
 		shard.color = body.color
@@ -50,9 +44,6 @@ func explode():
 		shard_velocity_map[shard] = Vector2(16, 16) - center #position relative to center of sprite
 		shard.set_as_toplevel(true)
 		add_child(shard)
-		#print(shard)
-		
-	#this will make our base sprite invisible
 	body.color.a = 0
 		
 func _integrate_forces(state: Physics2DDirectBodyState) -> void:
@@ -80,10 +71,15 @@ func _on_Crate_body_entered(collider: Node) -> void:
 	if bat and player and bat.current_health > 0:
 		bat.impact(linear_velocity * 2)
 		camera.shake(0.2, 250, linear_velocity.length() / weight)
+		_uses -= 1
+		if _uses <= 0:
+			explode()
+		else:
+			body.color = default_color.darkened(1 - (float(_uses) / float(_max_uses)))
+			
 
 func hit(fireball) -> void:
 	if !exploded and fireball:
 		exploded = true
 		explosion_speed = fireball.linear_velocity.length() / weight
-		collision_polygon_2d.disabled = true
 		explode()
