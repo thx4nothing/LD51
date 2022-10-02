@@ -1,1 +1,2 @@
 extends LevitatingObject
+class_name Crate

@@ -22,6 +22,8 @@ onready var body: Polygon2D = $Body as Polygon2D
 onready var collision_body: CollisionPolygon2D = $CollisionBody as CollisionPolygon2D
 onready var blood_particles: Particles2D = $BloodParticles as Particles2D
 
+onready var default_color: Color = body.color
+
 func _ready() -> void:
 	if player:
 		navigation_agent_2d.set_target_location(player.global_position)
@@ -42,6 +44,8 @@ func take_damage(dmg: float) -> void:
 		blood_particles.explosiveness = 1
 		blood_particles.speed_scale = 2
 		blood_particles.emitting = true
+		var new_color_index = remap_range(current_health, 0, max_health, 0.5, 1)
+		body.color = default_color.lightened(1 - new_color_index)
 
 func _physics_process(delta: float) -> void:
 	if current_health > 0:
@@ -67,3 +71,6 @@ func _physics_process(delta: float) -> void:
 func _on_NavTimer_timeout() -> void:
 	if player:
 		navigation_agent_2d.set_target_location(player.global_position)
+
+func remap_range(value, InputA, InputB, OutputA, OutputB):
+	return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA
