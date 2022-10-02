@@ -80,10 +80,10 @@ func hit(fireball) -> void:
 		explode()
 
 func _on_LevitatingObject_body_entered(collider: Node) -> void:
-	var bat: Bat = collider as Bat
-	if bat and player and bat.current_health > 0:
-		bat.take_damage(linear_velocity.length() / weight)
-		bat.impact(linear_velocity)
+	var enemy: Enemy = collider as Enemy
+	if enemy and player and enemy.current_health > 0:
+		enemy.take_damage(linear_velocity.length() / weight)
+		enemy.impact(linear_velocity)
 		camera.shake(0.2, 250, linear_velocity.length() / weight)
 		_uses -= 1
 		if _uses <= 0:

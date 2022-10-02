@@ -6,7 +6,7 @@
 [sub_resource type="OccluderPolygon2D" id=1]
 polygon = PoolVector2Array( 16, 0, -16, 16, -16, -16 )
 
-[node name="LevitatingEnemy" instance=ExtResource( 1 )]
+[node name="LevitatingBat" instance=ExtResource( 1 )]
 
 [node name="Body" parent="." index="0"]
 color = Color( 0.286275, 0.301961, 0.494118, 1 )

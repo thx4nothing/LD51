@@ -33,12 +33,12 @@ func _on_FireBall_body_entered(collider: Node) -> void:
 		_bounce_timer.start(0.2)
 		if _bounces > _max_bounces:
 			queue_free()
-	elif collider is Bat:
-		for enemy in _aoe_radius.get_overlapping_bodies():
-			var bat: Bat = enemy as Bat
-			if bat and bat.current_health > 0:
-				bat.take_damage(_damage)
-				bat.impact(linear_velocity)
+	elif collider is Enemy:
+		for node in _aoe_radius.get_overlapping_bodies():
+			var enemy: Enemy = node as Enemy
+			if enemy and enemy.current_health > 0:
+				enemy.take_damage(_damage)
+				enemy.impact(linear_velocity)
 				_camera.shake(0.2, 250, linear_velocity.length() / weight)
 		explosion_particles.emitting = true
 		_life_timer.start(0.3)
