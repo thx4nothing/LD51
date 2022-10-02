@@ -96,9 +96,11 @@ func _process(delta: float) -> void:
 			speed /= _shrinking_speed
 
 func _physics_process(delta: float) -> void:
-	if current_health > 0:
-		if navigation_agent_2d.is_navigation_finished():
-			return
+	if navigation_agent_2d.get_final_location().distance_to(global_position) < navigation_agent_2d.target_desired_distance:
+		var _rotation = get_angle_to(player.global_position)
+		body.rotation = _rotation
+		collision_body.rotation = _rotation
+	elif current_health > 0:
 		var direction := global_position.direction_to(navigation_agent_2d.get_next_location())
 		var desired_velocity := direction * speed
 		var steering := (desired_velocity - velocity) * delta * 4.0

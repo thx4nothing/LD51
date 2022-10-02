@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Arrow",
+"language": "GDScript",
+"path": "res://characters/enemies/arrow.gd"
+}, {
 "base": "Enemy",
 "class": "Bat",
 "language": "GDScript",
@@ -75,6 +80,7 @@ _global_script_classes=[ {
 "path": "res://characters/player/states/base_state.gd"
 } ]
 _global_script_class_icons={
+"Arrow": "",
 "Bat": "",
 "Crate": "",
 "Enemy": "",

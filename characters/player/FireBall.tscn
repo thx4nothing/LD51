@@ -11,7 +11,7 @@ absorbent = true
 offsets = PoolRealArray( 0.0193548, 0.180645, 1 )
 colors = PoolColorArray( 0, 0.20224, 0.550781, 1, 0.875, 0.738281, 0, 1, 1, 0.117188, 0, 1 )
 
-[sub_resource type="GradientTexture" id=2]
+[sub_resource type="GradientTexture" id=11]
 gradient = SubResource( 1 )
 
 [sub_resource type="ParticlesMaterial" id=3]
@@ -31,7 +31,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 3.95
 scale_random = 0.69
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 11 )
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 63.43
