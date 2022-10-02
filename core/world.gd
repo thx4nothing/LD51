@@ -12,7 +12,7 @@ onready var lev_skel_res = preload("res://objects/LevitatingSkeleton.tscn") as P
 onready var enemy_res: Array = [bat_res, skel_res] as Array
 
 onready var enemy_costs: Dictionary = {bat_res: 1, skel_res: 2}
-onready var item_costs: Dictionary = {potion_res: 1, crate_res: 2, spike_res: 3}
+onready var item_costs: Dictionary = {potion_res: 1, crate_res: 2} #, spike_res: 3}
 
 
 onready var player := $"%Player" as Player

@@ -51,9 +51,13 @@ func explode():
 			shard_pool.append(points[delaunay_points[(index * 3) + n]])
 			center += points[delaunay_points[(index * 3) + n]]
 		center /= 3
-		var shard = Polygon2D.new()
+		var shard: = Polygon2D.new() as Polygon2D
 		shard.polygon = shard_pool
-		shard.color = body.color
+		if body.texture:
+			shard.texture = body.texture
+			#shard.uv = body.uv
+		else:
+			shard.color = body.color
 		shard.global_position = body.global_position
 		shard_velocity_map[shard] = Vector2(16, 16) - center #position relative to center of sprite
 		shard.set_as_toplevel(true)

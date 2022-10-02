@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/ground_texture.png" type="Texture" id=1]
 [ext_resource path="res://objects/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/player/camera.gd" type="Script" id=3]
 [ext_resource path="res://core/world.gd" type="Script" id=4]
 [ext_resource path="res://objects/Potion.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/bgm.wav" type="AudioStream" id=6]
 [ext_resource path="res://objects/SpikeWall.tscn" type="PackedScene" id=8]
 [ext_resource path="res://objects/Crate.tscn" type="PackedScene" id=9]
 [ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=10]
@@ -30,6 +31,10 @@ outlines = [ PoolVector2Array( -1681, 1679, -1666, -994, 2502, -964, 2517, 1679 
 
 [node name="World" type="Node2D"]
 script = ExtResource( 4 )
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+autoplay = true
 
 [node name="Background" type="Sprite" parent="."]
 texture = ExtResource( 1 )

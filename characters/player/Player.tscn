@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://characters/player/player.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://characters/player/states/shrink_state.gd" type="Script" id=7]
 [ext_resource path="res://assets/player_hurt.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/fireball_shoot.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/player.png" type="Texture" id=10]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -16,7 +17,7 @@ code = "shader_type canvas_item;
 uniform bool active = false;
 
 void fragment(){
-	vec4 prevColor = COLOR;
+	vec4 prevColor =  texture(TEXTURE, UV);
 	if (active) COLOR = vec4(1.0, 1.0, 1.0, prevColor.a);
 	else COLOR = prevColor;
 }"
@@ -193,12 +194,14 @@ scale = Vector2( 1.00781, 1.00781 )
 polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
 
 [node name="LevitateRay" type="RayCast2D" parent="."]
+position = Vector2( 16, 18 )
 rotation = -1.5708
 enabled = true
 cast_to = Vector2( 0, 300 )
 collision_mask = 2
 
 [node name="ShrinkRay" type="RayCast2D" parent="."]
+position = Vector2( 16, 18 )
 rotation = -1.5708
 enabled = true
 cast_to = Vector2( 0, 300 )
@@ -207,14 +210,15 @@ collision_mask = 4
 [node name="Body" type="Polygon2D" parent="."]
 modulate = Color( 1.5, 1.5, 1.5, 1 )
 material = SubResource( 7 )
-color = Color( 0.545098, 0.427451, 0.611765, 1 )
 antialiased = true
-polygon = PoolVector2Array( 16, -16, -16, -16, -16, 16, 16, 16 )
+texture = ExtResource( 10 )
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+uv = PoolVector2Array( -5.72205e-06, 32, 4.76837e-06, -3.8147e-06, 32, 2.86102e-06, 32, 32 )
 
 [node name="Wand" type="Polygon2D" parent="Body"]
-position = Vector2( 6, -3 )
+position = Vector2( -2, -2 )
 color = Color( 0.415686, 0.270588, 0, 1 )
-polygon = PoolVector2Array( 0, 19, 0, 22, 16, 21, 16, 20 )
+polygon = PoolVector2Array( -7, 18, -7, 23, 16, 21, 16, 20 )
 
 [node name="ShootPoint" type="Position2D" parent="Body/Wand"]
 position = Vector2( 16, 20 )
@@ -248,6 +252,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="BloodParticles" parent="." instance=ExtResource( 3 )]
+position = Vector2( 16, 16 )
 emitting = false
 one_shot = true
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://objects/spike_wall.gd" type="Script" id=1]
+[ext_resource path="res://assets/spikewall.png" type="Texture" id=2]
 
 [sub_resource type="PhysicsMaterial" id=2]
 rough = true
@@ -20,8 +21,9 @@ estimate_radius = false
 radius = 16.0
 
 [node name="Wall" type="Polygon2D" parent="."]
-color = Color( 0, 0, 0, 1 )
+texture = ExtResource( 2 )
 polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
+uv = PoolVector2Array( 0, 3.8147e-06, 0, 32, 32, 32, 32, 3.8147e-06 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )

@@ -88,7 +88,7 @@ avoidance_enabled = true
 radius = 40.0
 neighbor_dist = 100.0
 time_horizon = 10.0
-max_speed = 100000.0
+max_speed = 1000.0
 
 [node name="NavTimer" type="Timer" parent="."]
 wait_time = 0.1

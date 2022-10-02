@@ -7,9 +7,6 @@ export (Color) var gradient_color: Color
 
 onready var player = get_tree().get_nodes_in_group("player")[0]
 
-onready var fireball_info_tex: Texture = preload("res://assets/fireball_info.png") as Texture
-onready var levitate_info_tex: Texture = preload("res://assets/levitate_info.png") as Texture
-onready var shrink_info_tex: Texture = preload("res://assets/shrink_info.png") as Texture
 onready var gradient: Gradient = ($"%SpellInfo".texture as GradientTexture2D).gradient as Gradient
 
 func _ready() -> void:
@@ -56,5 +53,5 @@ func _player_spell_changed(_current_spell, _next_spell) -> void:
 	$"%SpellLabelTimer".start()
 
 
-func _on_SpellInfoTween_tween_step(object: Object, key: NodePath, elapsed: float, value: Object) -> void:
+func _on_SpellInfoTween_tween_step(_object: Object, _key: NodePath, _elapsed: float, _value: Object) -> void:
 	gradient.colors[0] = gradient_color

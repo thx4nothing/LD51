@@ -78,6 +78,7 @@ func stop_shrinking() -> void:
 	shrink_sound.stop()
 
 func take_damage(dmg: float) -> void:
+	print(dmg)
 	if current_health > 0:
 		current_health -= dmg
 		if current_health <= 0:
