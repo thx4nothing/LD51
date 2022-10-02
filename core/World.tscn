@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/background.png" type="Texture" id=1]
+[ext_resource path="res://objects/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/player/camera.gd" type="Script" id=3]
 [ext_resource path="res://core/world.gd" type="Script" id=4]
 [ext_resource path="res://objects/SpikeWall.tscn" type="PackedScene" id=8]
@@ -22,9 +23,9 @@ glow_hdr_luminance_cap = 2.0
 glow_bicubic_upscale = true
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( -4918, 4927, -4939, -4951, 4939, -4951, 4960, 4948 )
+vertices = PoolVector2Array( -1681, 1679, -1666, -994, 2502, -964, 2517, 1679 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -4918, 4927, -4939, -4951, 4939, -4951, 4960, 4948 ) ]
+outlines = [ PoolVector2Array( -1681, 1679, -1666, -994, 2502, -964, 2517, 1679 ) ]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 4 )
@@ -109,8 +110,99 @@ navpoly = SubResource( 1 )
 [node name="Player" parent="Navigation2D" groups=["player"] instance=ExtResource( 10 )]
 unique_name_in_owner = true
 
+[node name="Walls" type="Node" parent="Navigation2D"]
+
+[node name="Wall" parent="Navigation2D/Walls" instance=ExtResource( 2 )]
+position = Vector2( -2032, 370 )
+scale = Vector2( 9.11415, 43.9425 )
+
+[node name="Wall2" parent="Navigation2D/Walls" instance=ExtResource( 2 )]
+position = Vector2( 2867, 365 )
+scale = Vector2( 9.11415, 43.9425 )
+
+[node name="Wall3" parent="Navigation2D/Walls" instance=ExtResource( 2 )]
+position = Vector2( 417, 2063 )
+rotation = -1.57079
+scale = Vector2( 9.11367, 85.7866 )
+
+[node name="Wall4" parent="Navigation2D/Walls" instance=ExtResource( 2 )]
+position = Vector2( 422, -1333 )
+rotation = -1.57079
+scale = Vector2( 9.11367, 85.7866 )
+
 [node name="WaveTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="EnemySpawnPoints" type="Node" parent="."]
+
+[node name="Position2D" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -1375, -756 )
+
+[node name="Position2D2" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -1386, -30 )
+
+[node name="Position2D3" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -1362, 998 )
+
+[node name="Position2D4" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -815, 1286 )
+
+[node name="Position2D5" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 603, 1307 )
+
+[node name="Position2D6" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1855, 1125 )
+
+[node name="Position2D7" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1826, 159 )
+
+[node name="Position2D8" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1927, -634 )
+
+[node name="Position2D9" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 736, -685 )
+
+[node name="Position2D10" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -332, -682 )
+
+[node name="Position2D11" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -871, 47 )
+
+[node name="Position2D12" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -161, 816 )
+
+[node name="Position2D13" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1104, 840 )
+
+[node name="Position2D14" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1019, -134 )
+
+[node name="Position2D15" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 186, -468 )
+
+[node name="Position2D16" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 255, 445 )
+
+[node name="Position2D17" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( -298, -222 )
+
+[node name="Position2D18" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 4, 1489 )
+
+[node name="Position2D19" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1312, 1521 )
+
+[node name="Position2D20" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 2313, 1596 )
+
+[node name="Position2D21" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 2276, 552 )
+
+[node name="Position2D22" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 2215, -358 )
+
+[node name="Position2D23" type="Position2D" parent="EnemySpawnPoints"]
+position = Vector2( 1374, -510 )
 
 [connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]

@@ -11,12 +11,13 @@
 [ext_resource path="res://characters/player/score.tres" type="Resource" id=9]
 
 [sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.1, 1 )
 colors = PoolColorArray( 0.341176, 0, 0, 1, 0, 0, 0, 0 )
 
 [sub_resource type="GradientTexture2D" id=2]
 gradient = SubResource( 1 )
-fill_from = Vector2( 0.529167, 1 )
-fill_to = Vector2( 0.529167, 0.816667 )
+fill_from = Vector2( 0.5, 1 )
+fill_to = Vector2( 0.5, 0.94 )
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -57,27 +58,29 @@ unique_name_in_owner = true
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI"]
 anchor_right = 1.0
 margin_bottom = 14.0
+rect_min_size = Vector2( 0, 75 )
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/GUI/VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 17.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 6 )
 player_health = ExtResource( 7 )
 
 [node name="ScoreLabel" type="Label" parent="CanvasLayer/GUI/VBoxContainer"]
-margin_top = 21.0
+margin_top = 37.0
 margin_right = 1280.0
-margin_bottom = 38.0
+margin_bottom = 54.0
 text = "Score: "
 script = ExtResource( 8 )
 player_score = ExtResource( 9 )
 
 [node name="HiScoreLabel" type="Label" parent="CanvasLayer/GUI/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 42.0
+margin_top = 58.0
 margin_right = 1280.0
-margin_bottom = 59.0
+margin_bottom = 75.0
 text = "Highscore: "
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI"]
@@ -85,6 +88,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="SpellLabel" type="Label" parent="CanvasLayer/GUI/CenterContainer"]
+visible = false
 margin_left = 635.0
 margin_top = 351.0
 margin_right = 645.0
@@ -105,9 +109,9 @@ anchor_bottom = 1.0
 
 [node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/GameOverScreen"]
 margin_left = 599.0
-margin_top = 327.0
+margin_top = 328.0
 margin_right = 681.0
-margin_bottom = 392.0
+margin_bottom = 391.0
 
 [node name="GameOverLabel" type="Label" parent="CanvasLayer/GUI/GameOverScreen/HBoxContainer"]
 margin_right = 82.0
@@ -125,7 +129,7 @@ player_score = ExtResource( 9 )
 [node name="RestartButton" type="Button" parent="CanvasLayer/GUI/GameOverScreen/HBoxContainer"]
 margin_top = 42.0
 margin_right = 82.0
-margin_bottom = 65.0
+margin_bottom = 63.0
 text = "Restart"
 
 [connection signal="tween_step" from="CanvasLayer/GUI/SpellInfo/SpellInfoTween" to="." method="_on_SpellInfoTween_tween_step"]

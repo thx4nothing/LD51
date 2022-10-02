@@ -25,26 +25,31 @@ var difficulty: float = 0.1
 onready var wave_timer: Timer = $WaveTimer as Timer
 #var enemy_counter: int = 0
 #var wave_threshold: float = 3
+onready var enemy_spawn_points: Node = $EnemySpawnPoints as Node
+
+
 
 export (Resource) var player_score
 
 var random_spawn_pos: Vector2 = Vector2.ZERO
 func get_random_spawn_pos() -> Vector2:
-		var vsize = camera.get_viewport_rect().size
-		var camera_pos = camera.global_position
-		var top_left := Vector2(camera_pos.x - vsize.x / 2, camera_pos.y - vsize.y / 2) * camera.zoom #-vtrans.get_origin() / vtrans.get_scale()
-		var bottom_right := Vector2(camera_pos.x + vsize.x / 2, camera_pos.y + vsize.y / 2) * camera.zoom #vtrans.get_origin() * vtrans.get_scale()
-		var top: float= top_left.y
-		var bottom: float= bottom_right.y
-		var left: float= top_left.x
-		var right: float= bottom_right.x
-		var offscreen = 64
-		top = rand_range(top, top - offscreen)
-		bottom = rand_range(bottom, bottom + offscreen)
-		left = rand_range(left, left - offscreen)
-		right = rand_range(right, right + offscreen)
-		var spawn_pos := Vector2(left if randi() % 2 == 0 else right, bottom if randi() % 2 == 0 else top)
-		return spawn_pos
+	var spawn_pos: Vector2 = enemy_spawn_points.get_children()[randi() % enemy_spawn_points.get_children().size()].global_position
+	return spawn_pos
+#		var vsize = camera.get_viewport_rect().size
+#		var camera_pos = camera.global_position
+#		var top_left := Vector2(camera_pos.x - vsize.x / 2, camera_pos.y - vsize.y / 2) * camera.zoom #-vtrans.get_origin() / vtrans.get_scale()
+#		var bottom_right := Vector2(camera_pos.x + vsize.x / 2, camera_pos.y + vsize.y / 2) * camera.zoom #vtrans.get_origin() * vtrans.get_scale()
+#		var top: float= top_left.y
+#		var bottom: float= bottom_right.y
+#		var left: float= top_left.x
+#		var right: float= bottom_right.x
+#		var offscreen = 64
+#		top = rand_range(top, top - offscreen)
+#		bottom = rand_range(bottom, bottom + offscreen)
+#		left = rand_range(left, left - offscreen)
+#		right = rand_range(right, right + offscreen)
+#		var spawn_pos := Vector2(left if randi() % 2 == 0 else right, bottom if randi() % 2 == 0 else top)
+#		return spawn_pos
 
 func _ready() -> void:
 	player.connect("died", self, "_player_died")

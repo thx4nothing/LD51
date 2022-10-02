@@ -83,7 +83,7 @@ func take_damage(dmg: float) -> void:
 			body.color = default_color.lightened(1 - new_color_index)
 
 func _process(delta: float) -> void:
-	if navigation_agent_2d.get_final_location().distance_to(global_position) > 1000:
+	if navigation_agent_2d.get_final_location().distance_to(global_position) > 5000:
 		take_damage(1000)
 	if shrinking and not shrunk:
 		_shrink(_shrinking_speed * delta)

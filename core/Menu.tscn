@@ -10,7 +10,7 @@
 size = 48
 font_data = ExtResource( 3 )
 
-[node name="Title" type="TextureRect"]
+[node name="TitleScreen" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 5 )
@@ -32,16 +32,16 @@ script = ExtResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
 margin_right = 683.0
-margin_bottom = 200.0
+margin_bottom = 357.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Menu/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Menu/VBoxContainer"]
 margin_right = 683.0
 margin_bottom = 49.0
 custom_fonts/font = SubResource( 3 )
 text = "LEGEND OF THE BROKEN WAND"
 
-[node name="Label2" type="Label" parent="Menu/VBoxContainer"]
+[node name="TitleDescriptionLabel" type="Label" parent="Menu/VBoxContainer"]
 margin_top = 53.0
 margin_right = 683.0
 margin_bottom = 70.0
@@ -50,40 +50,55 @@ text = "A game by thx4nothing for LUDUM DARE 51 Compo"
 [node name="StartButton" type="Button" parent="Menu/VBoxContainer"]
 margin_top = 74.0
 margin_right = 683.0
-margin_bottom = 97.0
+margin_bottom = 95.0
 text = "Start Game"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menu/VBoxContainer"]
-margin_top = 101.0
+margin_top = 99.0
 margin_right = 683.0
-margin_bottom = 124.0
+margin_bottom = 131.0
 
-[node name="Music" type="Label" parent="Menu/VBoxContainer/HBoxContainer"]
-margin_top = 3.0
-margin_right = 58.0
-margin_bottom = 20.0
-text = "Volume"
+[node name="VolumeLabel" type="Label" parent="Menu/VBoxContainer/HBoxContainer"]
+margin_top = 7.0
+margin_right = 64.0
+margin_bottom = 24.0
+text = "Volume:"
 
 [node name="VolumeSlider" type="HSlider" parent="Menu/VBoxContainer/HBoxContainer"]
-margin_left = 62.0
-margin_right = 569.0
-margin_bottom = 16.0
+margin_left = 68.0
+margin_right = 577.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 min_value = -80.0
 max_value = 0.0
 value = -20.0
 
 [node name="VolumeTestButton" type="Button" parent="Menu/VBoxContainer/HBoxContainer"]
-margin_left = 573.0
+margin_left = 581.0
 margin_right = 683.0
-margin_bottom = 23.0
+margin_bottom = 32.0
 text = "Test Volume"
 
 [node name="QuitButton" type="Button" parent="Menu/VBoxContainer"]
-margin_top = 128.0
+margin_top = 135.0
 margin_right = 683.0
-margin_bottom = 151.0
+margin_bottom = 156.0
 text = "Quit"
+
+[node name="InfoLabel" type="Label" parent="Menu/VBoxContainer"]
+margin_top = 160.0
+margin_right = 683.0
+margin_bottom = 357.0
+text = "Controls:
+   WASD/Arrows - Movement
+   Left click/CTRL - Use current spell
+   Right click/ALT/Space - Dodge
+   Controller - You'll figure it out
+
+Spells:
+   Fireball - BOOM!
+   Levitate - Use objects (or corpses) to kill enemies with velocity!
+   Shrink - Trample your enemies to death!"
 
 [node name="TestAudio" type="AudioStreamPlayer" parent="Menu"]
 stream = ExtResource( 2 )
