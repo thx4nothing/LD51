@@ -18,6 +18,11 @@ onready var _uses: int = _max_uses
 var default_color: Color
 var default_scale: Vector2
 
+onready var impact_sound: AudioStreamPlayer2D = $ImpactSound as AudioStreamPlayer2D
+onready var breaking_sound: AudioStreamPlayer2D = $BreakingSound as AudioStreamPlayer2D
+onready var levitate_sound: AudioStreamPlayer2D = $LevitateSound as AudioStreamPlayer2D
+
+
 func _ready():
 	randomize()
 	if not default_color:
@@ -31,6 +36,7 @@ func _ready():
 func explode():
 	stop_levitate()
 	collision_polygon_2d.set_deferred("disabled", true)
+	breaking_sound.play()
 	
 	var points = body.polygon
 	for _i in range(shard_count):
@@ -62,10 +68,13 @@ func _integrate_forces(state: Physics2DDirectBodyState) -> void:
 func start_levitate(follow) -> void:
 	player = follow
 	levitate_particles.emitting = true
+	levitate_sound.play()
+	
 
 func stop_levitate() -> void:
 	player = null
 	levitate_particles.emitting = false
+	levitate_sound.stop()
 
 func _physics_process(delta):
 	for child in shard_velocity_map.keys():
@@ -90,3 +99,4 @@ func _on_LevitatingObject_body_entered(collider: Node) -> void:
 			explode()
 		else:
 			body.color = default_color.darkened(1 - (float(_uses) / float(_max_uses)))
+			impact_sound.play()

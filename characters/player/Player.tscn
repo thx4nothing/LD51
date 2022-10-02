@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://characters/player/player.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/health.tres" type="Resource" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://characters/player/states/fireball_state.gd" type="Script" id=5]
 [ext_resource path="res://characters/player/states/levitate_state.gd" type="Script" id=6]
 [ext_resource path="res://characters/player/states/shrink_state.gd" type="Script" id=7]
+[ext_resource path="res://assets/player_hurt.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/fireball_shoot.wav" type="AudioStream" id=9]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -268,6 +270,15 @@ script = ExtResource( 7 )
 [node name="DodgeTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+
+[node name="FireBallShoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+
+[node name="Listener2D" type="Listener2D" parent="."]
+current = true
 
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
 [connection signal="timeout" from="SpellTimer" to="." method="_on_SpellTimer_timeout"]

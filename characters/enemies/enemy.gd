@@ -34,6 +34,14 @@ onready var shrink_step_area: Area2D = $ShrinkStepArea as Area2D
 
 onready var default_color: Color = body.color
 
+# sound
+onready var hurt_sound: AudioStreamPlayer2D = $HurtSound as AudioStreamPlayer2D
+onready var battle_cry_sound: AudioStreamPlayer2D = $BattleCrySound as AudioStreamPlayer2D
+onready var death_sound: AudioStreamPlayer2D = $DeathSound as AudioStreamPlayer2D
+onready var shrink_sound: AudioStreamPlayer2D = $ShrinkSound as AudioStreamPlayer2D
+onready var sound_particle: Particles2D = $SoundParticle as Particles2D
+
+
 func _ready() -> void:
 	if player:
 		navigation_agent_2d.set_target_location(player.global_position)
@@ -61,10 +69,13 @@ func start_shrinking() -> void:
 	if not shrunk and not shrinking:
 		shrink_particles.emitting = true
 		shrinking = true
+		shrink_sound.play()
+		
 
 func stop_shrinking() -> void:
 	shrink_particles.emitting = false
 	shrinking = false
+	shrink_sound.stop()
 
 func take_damage(dmg: float) -> void:
 	if current_health > 0:
@@ -75,6 +86,7 @@ func take_damage(dmg: float) -> void:
 			blood_particles.explosiveness = 0
 			blood_particles.speed_scale = 1
 			blood_particles.emitting = true
+			death_sound.play()
 		else:
 			blood_particles.one_shot = true
 			blood_particles.explosiveness = 1
@@ -82,6 +94,7 @@ func take_damage(dmg: float) -> void:
 			blood_particles.emitting = true
 			var new_color_index = remap_range(current_health, 0, max_health, 0.5, 1)
 			body.color = default_color.lightened(1 - new_color_index)
+			hurt_sound.play()
 
 func _process(delta: float) -> void:
 	if navigation_agent_2d.get_final_location().distance_to(global_position) > 5000:
@@ -112,6 +125,9 @@ func _physics_process(delta: float) -> void:
 		velocity += steering
 		navigation_agent_2d.set_velocity(velocity)
 		#add_central_force(velocity)
+		if randf() > 0.995 and not battle_cry_sound.playing:
+			battle_cry_sound.play()
+			sound_particle.emitting = true
 
 func _on_NavTimer_timeout() -> void:
 	if player and not shrunk:

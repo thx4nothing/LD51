@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://characters/enemies/arrow.gd" type="Script" id=1]
+[ext_resource path="res://assets/arrow.wav" type="AudioStream" id=2]
 
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 0.59375, 0.588966, 0.517212, 1, 0.980392, 0.980392, 0.976471, 0 )
@@ -53,6 +54,10 @@ process_material = SubResource( 4 )
 
 [node name="LifeTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ArrowSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_Arrow_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]

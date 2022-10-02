@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://characters/player/fire_ball.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
+[ext_resource path="res://assets/fireball_explosion.wav" type="AudioStream" id=3]
 
 [sub_resource type="PhysicsMaterial" id=10]
 bounce = 7.01
@@ -127,6 +128,10 @@ visibility_rect = Rect2( -57.6514, -62.9658, 114.716, 118.795 )
 local_coords = false
 process_material = SubResource( 9 )
 
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
 [connection signal="body_entered" from="." to="." method="_on_FireBall_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]
 [connection signal="timeout" from="BounceTimer" to="." method="_on_BounceTimer_timeout"]
+[connection signal="finished" from="ExplosionSound" to="." method="_on_ExplosionSound_finished"]

@@ -1,6 +1,7 @@
 extends State
 
 onready var fireball_res: = preload("res://characters/player/FireBall.tscn") as PackedScene
+onready var fire_ball_shoot: AudioStreamPlayer2D = $"../../FireBallShoot" as AudioStreamPlayer2D
 
 export var shoot_cooldown: float = 0.5
 var shoot_timer: float = 0.0
@@ -29,3 +30,4 @@ func _shoot_fireball(player: Player) -> void:
 	var direction: = Vector2(cos(angle), sin(angle))
 	fireball.apply_central_impulse(direction * 1000)
 	player.get_parent().add_child(fireball)
+	fire_ball_shoot.play()

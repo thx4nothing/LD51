@@ -22,6 +22,9 @@ onready var _camera: PlayerCamera = get_tree().get_nodes_in_group("camera")[0] a
 
 onready var explosion_particles: Particles2D = $ExplosionParticles as Particles2D
 
+# sound
+onready var explosion_sound: AudioStreamPlayer2D = $ExplosionSound as AudioStreamPlayer2D
+
 
 func _ready() -> void:
 	_life_timer.start(_lifetime)
@@ -41,7 +44,7 @@ func _on_FireBall_body_entered(collider: Node) -> void:
 				enemy.impact(linear_velocity)
 				_camera.shake(0.2, 250, linear_velocity.length() / weight)
 		explosion_particles.emitting = true
-		_life_timer.start(0.3)
+		explosion_sound.play()
 	elif collider is Crate:
 		(collider as Crate).hit(self)
 
@@ -50,3 +53,8 @@ func _on_LifeTimer_timeout() -> void:
 
 func _on_BounceTimer_timeout() -> void:
 	_bounced = false
+
+
+func _on_ExplosionSound_finished() -> void:
+	_life_timer.start(0.1)
+	

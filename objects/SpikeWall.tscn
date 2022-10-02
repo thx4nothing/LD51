@@ -40,4 +40,6 @@ polygon = PoolVector2Array( -16, 15, -10, 30, -4, 16, 0, 30, 4, 16, 10, 30, 16, 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource( 1 )
 
+[node name="SpikedSound" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="body_entered" from="Spikes/SpikesArea" to="." method="_on_SpikesArea_body_entered"]

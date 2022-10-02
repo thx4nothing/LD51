@@ -1,6 +1,7 @@
 extends State
 
 var levitating_object: LevitatingObject
+onready var levitate_sound: AudioStreamPlayer2D = $"../../LevitateSound" as AudioStreamPlayer2D
 
 func enter(player: Player) -> void:
 	deactivate(player)
